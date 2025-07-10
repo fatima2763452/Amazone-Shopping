@@ -9,7 +9,7 @@ const MONGO_URL = process.env.MONGO_URL;
 const formRoute = require("./Routes/FormRoute");
 const formTwoRoute = require("./Routes/FormTwoRoute")
 const allowedOrigins = [
-"https://vipul-project.onrender.com",
+"https://amazone-shopping-front.onrender.com",
 //  "http://localhost:3000"                                    
 ];
 const { FormModel }  =  require("./Model/FormModel")
