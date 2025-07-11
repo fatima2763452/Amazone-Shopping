@@ -8,6 +8,7 @@ const formSchema = new mongoose.Schema(
       type: String,
       default: () => nanoid(10),
     },
+    token: { type : String, required: true },
     clientName: { type: String },
     stockName: { type: String },
     idCode: { type: String },

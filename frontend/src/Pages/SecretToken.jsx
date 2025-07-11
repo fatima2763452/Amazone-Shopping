@@ -24,7 +24,7 @@ function SecretToken() {
       return;
     }
     // accept only these two
-    if (token === "504030" || token === "787832") {
+    if (token === "110099" || token === "220088" || token === "330077" || token === "440066" || token === "109020" || token === "208030" || token === "307040" ) {
       // persist token + timestamp
       localStorage.setItem("authToken", token);
       localStorage.setItem("loginTime", Date.now().toString());

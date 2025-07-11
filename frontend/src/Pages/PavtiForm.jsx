@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import '../styles/Home.css'; // Custom CSS for background and hover
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { data, useNavigate , useParams } from 'react-router-dom';
+import { useNavigate , useParams } from 'react-router-dom';
 
 function PavtiForm() {
     const navigate = useNavigate();
@@ -29,18 +29,17 @@ function PavtiForm() {
     const handleSubmit = async(e) =>{
       e.preventDefault();
       const {idCode,address, margin, mobileNumber, orgnization} = PavtiFormData;
+      const token = localStorage.getItem('authToken');
       try{
-        const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/forms/updateForm/${idCode}`, {
-          idCode,
+        const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/forms/updateForm/${token}/${idCode}`, {
           address,
           margin: Number(margin),
           mobileNumber : Number(mobileNumber),
           orgnization
         })
 
-
         if(res.data.success){
-          navigate(`/Pavti/${PavtiFormData.idCode}`);
+          navigate(`/Pavti/${idCode}`);
         }
 
       }catch(err){

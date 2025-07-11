@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 
 function Holdings() {
   const navigate = useNavigate();
+
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
   const [totals, setTotals] = useState({
@@ -19,7 +20,10 @@ function Holdings() {
     const fetchHoldings = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getForm`);
+        // Get token from localStorage
+        const token = localStorage.getItem('authToken');
+        console.log(token)
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getFormbyToken/${token}`);
         setStocks(res.data);
       } catch (err) {
         console.error('Error fetching holdings:', err);
@@ -96,7 +100,8 @@ function Holdings() {
   const handleDeleteAll = async () => {
     if (!window.confirm("Are you sure you want to delete all entries?")) return;
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/api/forms/deleteAll`);
+      const token = localStorage.getItem('authToken');
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/forms/deleteAll/${token}`);
       setStocks([]);
     } catch (err) {
       console.error("Error deleting all:", err.response?.data || err.message);

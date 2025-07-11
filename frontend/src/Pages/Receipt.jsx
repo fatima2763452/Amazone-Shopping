@@ -13,7 +13,8 @@ function Receipt() {
   const [receiptData, setReceiptData] = useState(null);
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getForm/${uniquckId}`)
+    const token = localStorage.getItem('authToken');
+    axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getForm/${token}/${uniquckId}`)
       .then(res => setReceiptData(res.data))
       .catch(err => console.error(err));
   }, [uniquckId]);

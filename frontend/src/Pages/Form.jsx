@@ -15,7 +15,7 @@ function Form() {
     quantity: "", 
     buyPrice: "",
     sellPrice:"", 
-    tradeDate:"", 
+    tradeDate:"",
   });
 
   const handleChanges = (event) => {
@@ -29,6 +29,8 @@ function Form() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { clientName, stockName, idCode, quantity, buyPrice, sellPrice, tradeDate, brokerage, mode } = formData;
+    // Get token from localStorage
+    const token = localStorage.getItem('authToken');
 
     try {
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/forms/createForm`, {
@@ -40,7 +42,8 @@ function Form() {
         sellPrice: Number(sellPrice),
         tradeDate,
         brokerage: Number(brokerage),
-        mode
+        mode,
+        token // Add token to payload
       });
 
       if (res.data.success) {

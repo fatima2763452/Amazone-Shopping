@@ -4,19 +4,24 @@ import jsPDF from 'jspdf';
 import { data, useNavigate, useParams } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import axios from "axios"
+import { imgAndSign } from "./data.js";
 
 
 function Pavti() {
   const invoiceRef = useRef();
   const { idCode } = useParams();
+  const token = localStorage.getItem('authToken');
   const [pavtiData, setPavtiData] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [totalProfit, setTotalProfit] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+      const token = localStorage.getItem('authToken');
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getStocks/${idCode}`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getStocks/${token}/${idCode}`);
         setPavtiData(res.data);
 
         if (res.data.length) {
@@ -49,6 +54,8 @@ function Pavti() {
         }
       } catch (err) {
         console.error('Error fetching data:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -123,7 +130,7 @@ const handleDownload = async () => {
 
   // First page
   pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-  heightLeft -= pageHeight;
+  heightLeft -= pageHeight;                                       
 
   while (heightLeft > 0) {
     position = heightLeft - imgHeight;
@@ -142,126 +149,136 @@ const handleDownload = async () => {
     <>
       <NavBar />
       <div className="container-fluid ">
-        <div ref={invoiceRef} style={{ backgroundColor: 'white', color: 'black' }}>
-          {/* Header */}
-          <div className="row g-0">
-            <div className="col-12 d-flex flex-column align-items-center mb-2">
-              <img
-                src={require('../Pages/vipul-project-logo.jpg')}
-                alt="logo"
-                className="img-fluid mb-2"
-                style={{ maxWidth: '90px', objectFit: 'contain', display: 'block', margin: '0 auto' }}
-              />
-              <div
-                style={{
-                  fontSize: '1.1em',
-                  fontFamily: 'Impact, fantasy',
-                  textAlign: 'center',
-                  letterSpacing: 2,
-                  fontWeight: 50,
-                }}
-              >
-                {pavtiData[0]?.orgnization || "TRADE ORGANIZATION"}
+        <>
+          {loading ? (
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '60vh' }}>
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div ref={invoiceRef} style={{ backgroundColor: 'white', color: 'black' }}>
+                {/* Header */}
+                <div className="row g-0">
+                  <div className="col-12 d-flex flex-column align-items-center mb-2">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/${imgAndSign[token].img}`}
+                      alt="logo"
+                      className="img-fluid mb-2"
+                      style={{ maxWidth: '90px', objectFit: 'contain', display: 'block', margin: '0 auto' }}
+                    />
+                    <div
+                      style={{
+                        fontSize: '1.2em',
+                        // fontFamily: 'Impact, fantasy',
+                        textAlign: 'center',
+                        letterSpacing: 2,
+                        fontWeight: 500,
+                      }}
+                    >
+                      <b>{pavtiData[0]?.orgnization || "TRADE ORGANIZATION"}</b>
+                    </div>
+                  </div>
+                </div>
+                {/*user info */}
+                <p className="text-end mb-2" >
+                  <strong>Invoice no. :</strong> In##00{Math.floor(10000 + Math.random() * 90000)}
+                </p>
+                <div className="p-1" style={{ backgroundColor: '#e7e0d6', height: "2em" }} >
+                  <p>
+                    <strong>Date :</strong> {new Date().toLocaleDateString('en-GB')}
+                  </p>
+                </div>
 
+                <div className="mb-3 mt-3">
+                  {pavtiData[0] && (
+                    <>
+                      <p className="mb-1"><strong>ID CODE :</strong> {pavtiData[0].idCode}</p>
+                      <p className="mb-0"><strong>NAME :</strong> {pavtiData[0].clientName}</p>
+                      <p className="mb-0"><strong>PHONE :</strong> {maskMobile(pavtiData[0].mobileNumber)}</p>
+                      <p className="mb-0"><strong>ADDRESS :</strong> {pavtiData[0].address}</p>
+                    </>
+                  )}
+                </div>
+
+                {/* Table */}
+                <div className="table-responsive mb-3 mt-3">
+                  <table className="table table-bordered text-sm mb-0">
+                    <thead className="table-light">
+                      <tr>
+                        <th className="text-center">ORDER</th>
+                        <th className="text-center">DATE</th>
+                        <th className="text-center">STOCK</th>
+                        <th className="text-center">BUY</th>
+                        <th className="text-center">SELL</th>
+                        <th className="text-center">QTY</th>
+                        <th className="text-center">BROKERAGE</th>
+                        <th className="text-center">P / L</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {pavtiData.map((t, idx) => {
+                        const brk = calculateBrokerage(t);
+                        const pl = t.mode === 'buy'? ((t.sellPrice - t.buyPrice) * t.quantity) - brk : ((t.buyPrice - t.sellPrice) * t.quantity) - brk;
+                        const plColor = pl >= 0 ? 'green' : 'red';
+                        return (
+                          <tr key={idx} className="align-middle text-muted">
+                            <td className="text-center">{idx + 1}</td>
+                            <td className="text-center">{new Date(t.tradeDate).toLocaleDateString('en-GB')}</td>
+                            <td>{t.stockName} ({t.mode})</td>
+                            <td className="text-center">&#8377;{t.buyPrice}</td>
+                            <td className="text-center">&#8377;{t.sellPrice}</td>
+                            <td className="text-center">{t.quantity}</td>
+                            <td className="text-center">&#8377;{brk}</td>
+                            <td className="text-end" style={{ color: plColor }}>
+                              &#8377;{pl.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                            </td>
+                          </tr>
+                        );
+                      })}
+
+                    </tbody>
+
+                  </table>
+                </div>
+
+                <div className="p-1" style={{ backgroundColor: '#e7e0d6', height: "2em" }} >
+                  <p>
+                    <strong>Margin :</strong> &#8377; {userInfo?.margin || '0.00'}
+                  </p>
+                </div>
+
+                <div className="mb-3 row">
+                  <p className="fw-bold col-6">Term & Condition / Note Detailed bill that records all transactions Done by broker on behalf of His client during a trading day</p>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`}
+                    alt="signature"
+                    className="img-fluid mb-2 col-6"
+                    style={{ maxWidth: '15em', objectFit: 'contain', display: 'block', margin: '0 auto' }}
+                  />
+                </div>
+
+                <div className="p-3 d-flex flex-column flex-sm-row justify-content-between align-items-center" style={{ backgroundColor: '#e7e0d6' }}>
+                  <h6 className="fw-bold" style={{ fontSize : "20px" }}>TOTAL</h6>
+                  <div className="text-end">
+                    {/* <p className="mb-1 text-success" style={{ fontWeight: 600 }}>Seven thousand six hundred eighty-five</p> */}
+                    <p className="mb-0" style={{ color: totalProfit >= 0 ? 'green' : 'red', fontWeight: 'bold' }}>
+                      &#8377; {totalProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    </p>
+                  </div>
+                </div>
               </div>
 
-            </div>
-          </div>
-          {/*user info */}
-          <p className="text-end mb-2" >
-            <strong>Invoice no. :</strong> In##00{Math.floor(10000 + Math.random() * 90000)}
-          </p>
-          <div className="p-1" style={{ backgroundColor: '#e7e0d6', height: "2em" }} >
-            <p>
-              <strong>Date :</strong> {new Date().toLocaleDateString('en-GB')}
-            </p>
-          </div>
-
-          <div className="mb-3 mt-3">
-            {pavtiData[0] && (
-              <>
-                <p className="mb-1"><strong>ID CODE :</strong> {pavtiData[0].idCode}</p>
-                <p className="mb-0"><strong>NAME :</strong> {pavtiData[0].clientName}</p>
-                <p className="mb-0"><strong>PHONE :</strong> {maskMobile(pavtiData[0].mobileNumber)}</p>
-                <p className="mb-0"><strong>ADDRESS :</strong> {pavtiData[0].address}</p>
-              </>
-            )}
-          </div>
-
-          {/* Table */}
-          <div className="table-responsive mb-3 mt-3">
-            <table className="table table-bordered text-sm mb-0">
-              <thead className="table-light">
-                <tr>
-                  <th className="text-center">ORDER</th>
-                  <th className="text-center">DATE</th>
-                  <th className="text-center">STOCK</th>
-                  <th className="text-center">BUY</th>
-                  <th className="text-center">SELL</th>
-                  <th className="text-center">QTY</th>
-                  <th className="text-center">BROKERAGE</th>
-                  <th className="text-center">P / L</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {pavtiData.map((t, idx) => {
-                  const brk = calculateBrokerage(t);
-                  const pl = t.mode === 'buy'? ((t.sellPrice - t.buyPrice) * t.quantity) - brk : ((t.buyPrice - t.sellPrice) * t.quantity) - brk;
-                  const plColor = pl >= 0 ? 'green' : 'red';
-                  return (
-                    <tr key={idx} className="align-middle text-muted">
-                      <td className="text-center">{idx + 1}</td>
-                      <td className="text-center">{new Date(t.tradeDate).toLocaleDateString('en-GB')}</td>
-                      <td>{t.stockName} ({t.mode})</td>
-                      <td className="text-center">&#8377;{t.buyPrice}</td>
-                      <td className="text-center">&#8377;{t.sellPrice}</td>
-                      <td className="text-center">{t.quantity}</td>
-                      <td className="text-center">&#8377;{brk}</td>
-                      <td className="text-end" style={{ color: plColor }}>
-                        &#8377;{pl.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                      </td>
-                    </tr>
-                  );
-                })}
-
-              </tbody>
-
-            </table>
-          </div>
-
-          <div className="p-1" style={{ backgroundColor: '#e7e0d6', height: "2em" }} >
-            <p>
-              <strong>Margin :</strong> &#8377; {userInfo?.margin || '0.00'}
-            </p>
-          </div>
-
-          <div className="mb-3 row">
-            <p className="fw-bold col-6">Term & Condition / Note Detailed bill that records all transactions Done by broker on behalf of His client during a trading day</p>
-            <img
-              src={require('../Pages/Signature-img.jpg')}
-              alt="logo"
-              className="img-fluid mb-2 col-6"
-              style={{ maxWidth: '15em', objectFit: 'contain', display: 'block', margin: '0 auto' }}
-            />
-          </div>
-
-          <div className="p-3 d-flex flex-column flex-sm-row justify-content-between align-items-center" style={{ backgroundColor: '#e7e0d6' }}>
-            <h6 className="fw-bold" style={{ fontSize : "20px" }}>TOTAL</h6>
-            <div className="text-end">
-              {/* <p className="mb-1 text-success" style={{ fontWeight: 600 }}>Seven thousand six hundred eighty-five</p> */}
-              <p className="mb-0" style={{ color: totalProfit >= 0 ? 'green' : 'red', fontWeight: 'bold' }}>
-                &#8377; {totalProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-center mt-4">
-          <button className="btn btn-primary" onClick={handleDownload}>
-            Download PDF
-          </button>
-        </div>
+              <div className="text-center mt-4">
+                <button className="btn btn-primary" onClick={handleDownload}>
+                  Download PDF
+                </button>
+              </div>
+            </>
+          )}
+        </>
       </div>
     </>
   );

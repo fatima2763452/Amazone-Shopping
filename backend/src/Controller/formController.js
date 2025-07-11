@@ -5,6 +5,7 @@ const { FormModel }  =  require("../Model/FormModel")
 exports.createForm = async (req, res) => {
   try {
     const form = new FormModel(req.body);
+    console.log(form);
     await form.save();
     // send back the new uniquckId
     res.status(201).json({
@@ -21,19 +22,21 @@ exports.createForm = async (req, res) => {
 // Get all form entries or a single entry by idCode
 exports.getForms = async (req, res) => {
   try {
-      const form = await FormModel.find({});
+    const { token } = req.params; 
+    console.log("Token received:", token);
+    const form = await FormModel.find({ token });
       return res.json(form);
-  } catch (err) {
+  }catch (err) {
     res.status(500).json({ message : "server issue", success : false });
   }
 };
 
 exports.getFormsByUniquckId = async (req, res) =>{
   try{
-    const { uniquckId } = req.params;
+    const { token , uniquckId } = req.params;
     console.log(uniquckId)
 
-    const getUser = await FormModel.findOne({uniquckId });
+    const getUser = await FormModel.findOne({ token , uniquckId });
     if(!getUser){
      return res.status(404).json({message:"user not found", success:false})
     }
@@ -46,23 +49,22 @@ exports.getFormsByUniquckId = async (req, res) =>{
 
 // PUT route to update all forms with same idCode
 exports.updateForm = async (req, res) => {
-  const { idCode } = req.params;
+  const { idCode, token } = req.params;
   const { address, margin, mobileNumber, orgnization } = req.body;
-
+  console.log("Token received for update :", token);
   console.log("Received ID:", idCode);
   console.log("Body:", req.body);
 
   try {
     const result = await FormModel.updateMany(
-      { idCode },
+      { token, idCode },
       {
         $set: { address, margin, mobileNumber, orgnization },
       }
     );
-
-    return res.status(200).json({ message: "All records updated", modifiedCount: result.modifiedCount, success:true });
+    return res.status(200).json({ message: "All records updated", modifiedCount: result.modifiedCount, success: true });
   } catch (error) {
-    console.error("Update Error:", error);  // THIS will show actual error
+    console.error("Update Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -88,7 +90,8 @@ exports.deleteForm = async (req, res) => {
 // Delete every form in the collection
 exports.deleteAllForms = async (req, res) => {
   try {
-    const result = await FormModel.deleteMany({});
+    const token = req.params;
+    const result = await FormModel.deleteMany({token});
     res.json({
       success: true,
       deletedCount: result.deletedCount,
@@ -105,11 +108,11 @@ exports.deleteAllForms = async (req, res) => {
 
 // 🔹 New: return an array of stockName strings for one user
 // Controller/formController.js
-exports.getTradesByIdCode = async (req, res) => {
+exports.getTradesByTokenAndIdCode = async (req, res) => {
   try {
-    const { idCode } = req.params;
-    console.log(idCode)
-    const trades = await FormModel.find({ idCode });
+    const { token,idCode } = req.params;
+    console.log(token,  idCode)
+    const trades = await FormModel.find({ token, idCode });
     if (!trades.length) {
       return res
         .status(404)

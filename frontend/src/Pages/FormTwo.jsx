@@ -30,26 +30,19 @@ function FormTwo() {
     e.preventDefault();
     const { client, stockName, idCode, quantity, buyPrice, tradeDate, mode } = formTwoData;
     console.log(formTwoData)
-    try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/formTwo/createFormTwo`, {
-        client,
-        stockName,
-        idCode,
-        quantity: Number(quantity),
-        buyPrice: Number(buyPrice),
-        tradeDate,
-        mode
-      });
-
-      console.log(res);
-
-      if (res.data) {
-        navigate(`/TredBuyReceipt`);
+      if (formTwoData != null) {
+        navigate(`/TredBuyReceipt`, {
+          state: {
+            client,
+            stockName,
+            idCode,
+            quantity: Number(quantity),
+            buyPrice: Number(buyPrice),
+            tradeDate,
+            mode
+          }
+        });
       }
-
-    } catch (err) {
-     console.log(err);
-    }
   };
 
   return (
