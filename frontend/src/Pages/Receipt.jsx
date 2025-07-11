@@ -131,14 +131,14 @@ function Receipt() {
                     <td style={labelStyle}>Sell Price:</td>
                     <td style={valueStyle}>₹{Number(receiptData.sellPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                   </tr>
-                  <tr>
+                  {/* <tr>
                     <td style={labelStyle}>Total Buying:</td>
                     <td style={valueStyle}>₹{(receiptData.buyPrice * receiptData.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                   </tr>
                   <tr>
                     <td style={labelStyle}>Total Selling:</td>
                     <td style={valueStyle}>₹{(receiptData.sellPrice * receiptData.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-                  </tr>
+                  </tr> */}
                   <tr>
                     <td style={labelStyle}>Brokerage (0.01%):</td>
                     <td style={valueStyle}>₹{brokerage.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
@@ -158,9 +158,9 @@ function Receipt() {
                 </tbody>
               </table>
 
-              <div className="text-center mt-4 fw-semibold text-primary">
+              {/* <div className="text-center mt-4 fw-semibold text-primary">
                 ✅ Thank you for trading with us!
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

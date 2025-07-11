@@ -119,9 +119,9 @@ function TredBuyReceipt() {
                 Including 0.02% Brokerage Charge
               </div>
 
-              <div className="text-center mt-4 fw-semibold text-primary">
+              {/* <div className="text-center mt-4 fw-semibold text-primary">
                 ✅ Thank you for trading with us!
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
