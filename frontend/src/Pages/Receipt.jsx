@@ -95,7 +95,7 @@ function Receipt() {
           <div className="card shadow-lg mx-auto" style={{ maxWidth: '600px', borderTop: '6px solid rgba(0, 123, 255, 0.76)', borderRadius: '16px' }}>
             <div className="card-body reciepit-card-body-tabel-padding p-4">
               <div className="text-center mb-4">
-                <h1 className="h4">Trade Exit Receipt</h1>
+                <h1 className="h4">Receipt</h1>
                 <small className="text-muted">
                   Invoice No: <strong>Invoice no.</strong> In##00{Math.floor(10000 + Math.random() * 90000)} &nbsp; | &nbsp; Date: <strong>{new Date(receiptData.tradeDate).toLocaleDateString('en-GB')}</strong>
                 </small>
