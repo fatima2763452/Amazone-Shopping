@@ -36,7 +36,7 @@ function SecretToken() {
 
   return (
     <div className="container py-4">
-      <p><strong>NOTE:</strong> Do not share your token with anyone</p>
+      {/* <p><strong>NOTE:</strong> Do not share your token with anyone</p> */}
       <form onSubmit={handleSubmit} className="row">
         <div className="col-md-6 mb-3">
           <label htmlFor="token" className="form-label text-muted">Token</label>
