@@ -251,7 +251,7 @@ const handleDownload = async () => {
                 </div>
 
                 <div className="mb-3 row">
-                  <p className="fw-bold col-6">Term & Condition / Note Detailed bill that records all transactions Done by broker on behalf of His client during a trading day</p>
+                  <p className="fw-bold col-6"><b>Term & Condition</b> <br></br> Note Detailed bill that records all transactions Done by broker on behalf of His client during a trading day</p>
                   <img
                     src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`}
                     alt="signature"

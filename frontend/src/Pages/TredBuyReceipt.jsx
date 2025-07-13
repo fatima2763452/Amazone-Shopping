@@ -34,7 +34,7 @@ function TredBuyReceipt() {
       const x = marginLR;
       const y = (pageH - finalH) / 2;
       pdf.addImage(imgData, 'PNG', x, y, finalW, finalH);
-      pdf.save('Trade-Buy-Receipt.pdf');
+      pdf.save('Buy Receipt.pdf');
     } catch (err) {
       console.error(err);
     }
@@ -83,7 +83,7 @@ function TredBuyReceipt() {
                 </tbody>
               </table>
               <div className="text-center mt-4 fw-semibold text-primary">
-                Including 0.02% Brokerage Charge
+                Including 0.01% Brokerage Charge
               </div>
             </div>
           </div>

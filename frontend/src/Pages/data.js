@@ -12,7 +12,7 @@ export const imgAndSign = {
     signature: 'media/s3.jpg'
   },
   '440066': {
-     img: 'media/cropped-img4.jpg',
+    img: 'media/cropped-img4.jpg',
     signature: 'media/s4.jpg'
   },
   '109020': {
@@ -20,7 +20,7 @@ export const imgAndSign = {
     signature: 'media/s5.jpg'
   },
   '208030': {
-    img: 'media/cropped-img6.jpg',
+    img: 'media/cropped-img7.jpg',
     signature: 'media/s6.jpg'
   },
   '307040': {

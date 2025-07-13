@@ -105,6 +105,9 @@ function NavBar() {
               <MenuItem component={Link} to="/averageCalce" onClick={handleCloseNavMenu}>
                 <Typography sx={{ textAlign: 'center' }}>Average Calce</Typography>
               </MenuItem>
+               <MenuItem component={Link} to="/investForm" onClick={handleCloseNavMenu}>
+                <Typography sx={{ textAlign: 'center' }}>Invest Form</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -141,6 +144,9 @@ function NavBar() {
             </Button>
             <Button component={Link} to="/averageCalce" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
               Average Calce
+            </Button>
+            <Button component={Link} to="/investForm" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
+              Invest Form
             </Button>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
