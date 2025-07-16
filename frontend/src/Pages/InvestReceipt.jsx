@@ -3,8 +3,10 @@ import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import NavBar from '../Components/NavBar';
+import { imgAndSign } from "./data.js";
 
 function InvestReceipt() {
+  const token = localStorage.getItem('authToken');
   const location = useLocation();
   const {
     companyName,
@@ -58,7 +60,7 @@ function InvestReceipt() {
               {companyName || 'INVESTMENT Pvt. Ltd.'}
             </div>
             <div style={{ fontSize: '1em', marginBottom: 10 }}>
-             <span style={{ }}>Registered NBSC Under Ministry Of Finance , Goverment Of India</span>
+             <span style={{ }}>We are registered with the Securities and Exchange Board of India (SEBI) as a Stock Broker.</span>
             </div>
           </div>
           <hr style={{ margin: '10px 0 20px 0' }} />
@@ -140,7 +142,7 @@ function InvestReceipt() {
           <div style={{ width: '90%', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 50 }}>
             <span style={{ fontStyle: 'italic', fontSize: '1em' }}>Signature of Authorized Officer</span>
             <img
-              src={`${process.env.PUBLIC_URL}/media/s1.jpg`}
+              src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`}
               alt="Signature"
               style={{ maxWidth: 120, height: 'auto' }}
             />
