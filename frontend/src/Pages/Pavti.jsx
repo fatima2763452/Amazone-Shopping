@@ -158,7 +158,22 @@ const handleDownload = async () => {
             </div>
           ) : (
             <>
-              <div ref={invoiceRef} style={{ backgroundColor: 'white', color: 'black' }}>
+              <div ref={invoiceRef} style={{ backgroundColor: 'white', color: 'black', position: 'relative' }}>
+                {/* DEVAKI logo for token 220088 */}
+                {token === "220088" && (
+                  <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: 20, marginBottom: 10 }}>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/media/devaki-logo.png`}
+                      alt="DEVAKI"
+                      style={{
+                        width: '120px',
+                        height: 'auto',
+                        background: 'transparent',
+                        marginLeft: 10,
+                      }}
+                    />
+                  </div>
+                )}
                 {/* Header */}
                 <div className="row g-0">
                   <div className="col-12 d-flex flex-column align-items-center mb-2">
@@ -171,13 +186,12 @@ const handleDownload = async () => {
                     <div
                       style={{
                         fontSize: '1.2em',
-                        // fontFamily: 'Impact, fantasy',
                         textAlign: 'center',
                         letterSpacing: 2,
                         fontWeight: 500,
                       }}
                     >
-                      <b>{pavtiData[0]?.orgnization || "TRADE ORGANIZATION"}</b>
+                      <b>{pavtiData[0]?.orgnization}</b>
                     </div>
                   </div>
                 </div>

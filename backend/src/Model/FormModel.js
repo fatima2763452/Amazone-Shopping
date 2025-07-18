@@ -22,7 +22,6 @@ const formSchema = new mongoose.Schema(
     mobileNumber: { type: Number },
     orgnization: {
       type: String,
-      default: "TRADE ORGANIZATION", // <-- set your default name here
     },
     mode: {
       type: String,
