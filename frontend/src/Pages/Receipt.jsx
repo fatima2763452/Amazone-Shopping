@@ -141,7 +141,7 @@ function Receipt() {
                     <td style={valueStyle}>₹{(receiptData.sellPrice * receiptData.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                   </tr> */}
                   <tr>
-                    <td style={labelStyle}>Brokerage (0.02%):</td>
+                    <td style={labelStyle}>Brokerage (0.01%):</td>
                     <td style={valueStyle}>₹{brokerage.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                   </tr>
                   <tr className="border-top border-primary" style={{ borderTopWidth: 2 }}>
