@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { jsPDF } from 'jspdf';
@@ -118,7 +117,12 @@ function Receipt() {
                   </tr>
                   <tr>
                     <td style={labelStyle}>Quantity:</td>
-                    <td style={valueStyle}>{receiptData.quantity}</td>
+                    <td style={valueStyle}>
+                      {receiptData.quantity}
+                      {receiptData.lotSize && receiptData.lotSize > 0
+                        ? ` (${receiptData.lotSize})`
+                        : ''}
+                    </td>
                   </tr>
                   <tr>
                     <td style={labelStyle}> Mode:</td>

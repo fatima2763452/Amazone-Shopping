@@ -13,6 +13,10 @@ const formSchema = new mongoose.Schema(
     stockName: { type: String },
     idCode: { type: String },
     quantity: { type: Number },
+    lotSize: {
+      type: Number,
+      default: 0,
+    },
     buyPrice: { type: Number },
     sellPrice: { type: Number },
     tradeDate: { type: Date },

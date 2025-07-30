@@ -9,7 +9,7 @@ import { useParams, useLocation } from 'react-router-dom';
 
 function TredBuyReceipt() {
   const location = useLocation();
-  const { client, stockName, idCode, quantity, buyPrice, tradeDate, mode } = location.state || {};
+  const { client, stockName, idCode, quantity, buyPrice, tradeDate, mode, lotSize } = location.state || {};
 
   const handleDownloadPDF = async () => {
     const input = document.getElementById('receipt-pdf');
@@ -70,7 +70,9 @@ function TredBuyReceipt() {
                   </tr>
                   <tr>
                     <td style={labelStyle}>Quantity:</td>
-                    <td style={valueStyle}>{quantity}</td>
+                    <td style={valueStyle}>{quantity}
+                      {lotSize && lotSize > 0 ? ` (${lotSize})` : ''}
+                    </td>
                   </tr>
                   <tr>
                     <td style={labelStyle}> Mode:</td>
