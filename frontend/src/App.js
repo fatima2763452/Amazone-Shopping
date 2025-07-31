@@ -112,9 +112,7 @@ import Admin8TredBuyReceipt from './123456/Pages/TredBuyReceipt';
 import Admin8AverageCalce from './123456/Pages/AverageCalce';
 import Admin8InvestForm from './123456/Pages/InvestForm';
 import Admin8InvestReceipt from './123456/Pages/InvestReceipt';
-
-
-
+import Admin8SMSSystem from './123456/Pages/SMS_System/SMSForm';
 
 function App() {
   const token = localStorage.getItem('authToken'); // Token to identify admin
@@ -168,6 +166,7 @@ function App() {
             <Route path="/averageCalce" element={<Admin8AverageCalce />} />
             <Route path="/investForm" element={<Admin8InvestForm />} />
             <Route path="/investReceipt" element={<Admin8InvestReceipt />} />
+            <Route path="/SMSForm" element={<Admin8SMSSystem/>} />
           </>
         )}
         
