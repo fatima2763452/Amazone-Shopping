@@ -7,7 +7,8 @@
     "express": "^5.1.0",
     "mongodb": "^6.17.0",
     "mongoose": "^8.15.1",
-    "nanoid": "^5.1.5"
+    "nanoid": "^5.1.5",
+    "twilio": "^5.8.0"
   },
   "scripts": {
     "start": "node src/index.js",

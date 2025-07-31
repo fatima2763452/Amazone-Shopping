@@ -8,9 +8,10 @@ app.use(express.json());
 const MONGO_URL = process.env.MONGO_URL;
 const formRoute = require("./Routes/FormRoute");
 const formTwoRoute = require("./Routes/FormTwoRoute")
+const SMSSender = require("./Routes/SMSRoute");
 const allowedOrigins = [
-"https://amazone-shopping-front.onrender.com",
-//  "http://localhost:3000"                                    
+// "https://amazone-shopping-front.onrender.com",
+ "http://localhost:3000"                                    
 ];
 const { FormModel }  =  require("./Model/FormModel")
 
@@ -26,6 +27,8 @@ app.use(cors({
 app.use('/api/forms', formRoute);
 
 app.use('/api/formTwo', formTwoRoute);
+
+app.use('/api/sms', SMSSender);
 
 mongoose.connect(MONGO_URL)
   .then(async () => {
