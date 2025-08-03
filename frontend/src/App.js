@@ -68,16 +68,16 @@ import Admin4AverageCalce from './440066/Pages/AverageCalce';
 import Admin4InvestForm from './440066/Pages/InvestForm';
 import Admin4InvestReceipt from './440066/Pages/InvestReceipt';
 
-import Admin5Holdings from './109020/Pages/Holdings';
-import Admin5Pavti from './109020/Pages/Pavti';
-import Admin5Receipt from './109020/Pages/Receipt';
-import Admin5PavtiForm from './109020/Pages/PavtiForm';
-import Admin5Form from './109020/Pages/Form';
-import Admin5FormTwo from './109020/Pages/FormTwo';
-import Admin5TredBuyReceipt from './109020/Pages/TredBuyReceipt';
-import Admin5AverageCalce from './109020/Pages/AverageCalce';
-import Admin5InvestForm from './109020/Pages/InvestForm';
-import Admin5InvestReceipt from './109020/Pages/InvestReceipt';
+import Admin5Holdings from './000111/Pages/Holdings';
+import Admin5Pavti from './000111/Pages/Pavti';
+import Admin5Receipt from './000111/Pages/Receipt';
+import Admin5PavtiForm from './000111/Pages/PavtiForm';
+import Admin5Form from './000111/Pages/Form';
+import Admin5FormTwo from './000111/Pages/FormTwo';
+import Admin5TredBuyReceipt from './000111/Pages/TredBuyReceipt';
+import Admin5AverageCalce from './000111/Pages/AverageCalce';
+import Admin5InvestForm from './000111/Pages/InvestForm';
+import Admin5InvestReceipt from './000111/Pages/InvestReceipt';
 
 import Admin6Holdings from './208030/Pages/Holdings';
 import Admin6Pavti from './208030/Pages/Pavti';
@@ -198,7 +198,7 @@ function App() {
             <Route path="/investReceipt" element={<Admin4InvestReceipt />} />
           </>
         )}
-        {token === '109020' && (
+        {token === '000111' && (
           <>
             <Route path="/holdings" element={<Admin5Holdings />} />
             <Route path="/pavti/:idCode" element={<Admin5Pavti />} />

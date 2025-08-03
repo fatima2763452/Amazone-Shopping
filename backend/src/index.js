@@ -24,11 +24,14 @@ app.use(cors({
 
 
 
+
 app.use('/api/forms', formRoute);
 
 app.use('/api/formTwo', formTwoRoute);
 
 app.use('/api/sms', SMSSender);
+
+
 
 mongoose.connect(MONGO_URL)
   .then(async () => {
