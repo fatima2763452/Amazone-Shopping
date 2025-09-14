@@ -144,7 +144,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         {!token && <Route path="/*" element={<SecretToken />} />}
-        {token === '110099' && (
+        {/* {token === '110099' && (
           <>
             
             <Route path="/holdings" element={<Admin1Holdings />} />
@@ -159,7 +159,7 @@ function App() {
             <Route path="/investForm" element={<Admin1InvestForm />} />
             <Route path="/investReceipt" element={<Admin1InvestReceipt />} />
           </>
-        )}
+        )} */}
         {token === '220088' && (
           <>
   
@@ -266,24 +266,9 @@ function App() {
 
         {token === '778899' && (
           <>
-            <Route path="/holdings" element={<Admin9Holdings />} />
-            <Route path="/pavti/:idCode" element={<Admin9Pavti />} />
-            <Route path="/receipt/:uniquckId" element={<Admin9Receipt />} />
-            <Route path="/pavti" element={<Admin9PavtiForm />} />
-            <Route path="/form" element={<Admin9Form />} />
-            <Route path="/formTwo" element={<Admin9FormTwo />} />
-            <Route path="/tredBuyReceipt" element={<Admin9TredBuyReceipt />} />
-            <Route path="/averageCalce" element={<Admin9AverageCalce />} />
-            <Route path="/investForm" element={<Admin9InvestForm />} />
-            <Route path="/investReceipt" element={<Admin9InvestReceipt />} />
-          </>
-        )}
-
-          {token === '809010' && (
-          <>
             <Route path="/holdings" element={<Admin10Holdings />} />
             <Route path="/pavti/:idCode" element={<Admin10Pavti />} />
-            <Route path="/receipt/:uniquckId" element={<Admin10Receipt />} />
+            <Route path="/receipt/:uniqukId" element={<Admin10Receipt />} />
             <Route path="/pavti" element={<Admin10PavtiForm />} />
             <Route path="/form" element={<Admin10Form />} />
             <Route path="/formTwo" element={<Admin10FormTwo />} />
@@ -291,6 +276,21 @@ function App() {
             <Route path="/averageCalce" element={<Admin10AverageCalce />} />
             <Route path="/investForm" element={<Admin10InvestForm />} />
             <Route path="/investReceipt" element={<Admin10InvestReceipt />} />
+          </>
+        )}
+
+        {token === '809010' && (
+          <>
+            <Route path="/holdings" element={<Admin9Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin9Pavti />} />
+            <Route path="/receipt/:uniqukId" element={<Admin9Receipt />} />
+            <Route path="/pavti" element={<Admin9PavtiForm />} />
+            <Route path="/form" element={<Admin9Form />} />
+            <Route path="/formTwo" element={<Admin9FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin9TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin9AverageCalce />} />
+            <Route path="/investForm" element={<Admin9InvestForm />} />
+            <Route path="/investReceipt" element={<Admin9InvestReceipt />} />
           </>
         )}
 
