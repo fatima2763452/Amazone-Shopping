@@ -15,7 +15,6 @@ const allowedOrigins = [
 ];
 const { FormModel }  =  require("./Model/FormModel")
 
-
 app.use(cors({
   origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE"],
