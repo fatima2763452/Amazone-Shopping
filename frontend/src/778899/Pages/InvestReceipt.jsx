@@ -11,6 +11,7 @@ function InvestReceipt() {
   const {
     companyName,
     customerName,
+    customerId,
     fatherName,
     dob,
     gender,
@@ -67,8 +68,8 @@ function InvestReceipt() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '90%', margin: '0 auto' }}>
             <div style={{ width: '65%' }}>
               <div style={{ fontWeight: 'bold', marginBottom: 10 , fontSize : '16px'}}>Customer Personal Information</div>
-              <div style={{ marginBottom: 8 }}><b>First Name </b>  : <span style={{ marginLeft: "10px", }}>{customerName?.split(' ')[0] || ''}</span></div>
-              <div style={{ marginBottom: 8 }}><b>Last Name</b>   : <span style={{marginLeft: "10px", }}>{customerName?.split(' ')[1] || ''}</span></div>
+              <div style={{ marginBottom: 8 }}><b>Name </b>  : <span style={{ marginLeft: "10px", }}>{customerName}</span></div>
+              <div style={{ marginBottom: 8 }}><b>Customer Id </b>  : <span style={{ marginLeft: "10px", }}>{customerId}</span></div>
               <div style={{ marginBottom: 8 }}><b>Father's Name </b>  : <span style={{ marginLeft: "10px", }}>{fatherName}</span></div>
               <div style={{ marginBottom: 8 }}><b>Date of Birth</b>   : <span style={{ marginLeft: "10px", }}>{dob ? new Date(dob).toLocaleDateString('en-GB') : ''}</span></div>
               <div style={{ marginBottom: 8 }}><b>Gender</b>   : <span style={{ marginLeft: "10px", }}>{gender}</span></div>

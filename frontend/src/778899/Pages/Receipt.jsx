@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { jsPDF } from 'jspdf';
@@ -22,7 +21,7 @@ function Receipt() {
   // Intraday brokerage at 0.01% of turnover (buy+sell)*quantity
   const calculateBrokerage = ({ buyPrice, sellPrice, quantity }) => {
     const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover * 0.0002).toFixed(2));
+    return Number((turnover * 0.0001).toFixed(2));
   };
 
 
@@ -118,7 +117,12 @@ function Receipt() {
                   </tr>
                   <tr>
                     <td style={labelStyle}>Quantity:</td>
-                    <td style={valueStyle}>{receiptData.quantity}</td>
+                    <td style={valueStyle}>
+                      {receiptData.quantity}
+                      {receiptData.lotSize && receiptData.lotSize > 0
+                        ? ` (${receiptData.lotSize})`
+                        : ''}
+                    </td>
                   </tr>
                   <tr>
                     <td style={labelStyle}> Mode:</td>
@@ -141,7 +145,7 @@ function Receipt() {
                     <td style={valueStyle}>₹{(receiptData.sellPrice * receiptData.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                   </tr> */}
                   <tr>
-                    <td style={labelStyle}>Brokerage (0.02%):</td>
+                    <td style={labelStyle}>Brokerage (0.01%):</td>
                     <td style={valueStyle}>₹{brokerage.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                   </tr>
                   <tr className="border-top border-primary" style={{ borderTopWidth: 2 }}>

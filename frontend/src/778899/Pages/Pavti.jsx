@@ -22,6 +22,7 @@ function Pavti() {
       const token = localStorage.getItem('authToken');
       try {
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getStocks/${token}/${idCode}`);
+        console.log(res.data);
         setPavtiData(res.data);
 
         if (res.data.length) {
@@ -76,72 +77,72 @@ function Pavti() {
   };
 
 
-const handleDownload = async () => {
-  const input = invoiceRef.current;
-  if (!input) return;
+  const handleDownload = async () => {
+    const input = invoiceRef.current;
+    if (!input) return;
 
-  // Clone the original node for layout safety
-  const clone = input.cloneNode(true);
-  clone.style.width = '794px'; // A4 width in px at 96 DPI
-  clone.style.padding = '20px';
-  clone.style.backgroundColor = 'white';
-  clone.style.position = 'absolute';
-  clone.style.top = '-9999px';
-  clone.style.left = '0';
-  clone.style.zIndex = '-1';
+    // Clone the original node for layout safety
+    const clone = input.cloneNode(true);
+    clone.style.width = '794px'; // A4 width in px at 96 DPI
+    clone.style.padding = '20px';
+    clone.style.backgroundColor = 'white';
+    clone.style.position = 'absolute';
+    clone.style.top = '-9999px';
+    clone.style.left = '0';
+    clone.style.zIndex = '-1';
 
-  const totalBlock = clone.querySelector('div.p-3');
-  if (totalBlock) {
-    totalBlock.classList.remove('flex-column', 'flex-sm-row');
-    totalBlock.style.display = 'flex';
-    totalBlock.style.flexDirection = 'row';
-    totalBlock.style.justifyContent = 'space-between';
-    totalBlock.style.alignItems = 'center';
-    totalBlock.style.height = 'auto'; // <-- Fix: height auto
-    totalBlock.style.padding = '0 20px';
-    totalBlock.style.gap = '0';
+    const totalBlock = clone.querySelector('div.p-3');
+    if (totalBlock) {
+      totalBlock.classList.remove('flex-column', 'flex-sm-row');
+      totalBlock.style.display = 'flex';
+      totalBlock.style.flexDirection = 'row';
+      totalBlock.style.justifyContent = 'space-between';
+      totalBlock.style.alignItems = 'center';
+      totalBlock.style.height = 'auto'; // <-- Fix: height auto
+      totalBlock.style.padding = '0 20px';
+      totalBlock.style.gap = '0';
 
-    const allChildren = totalBlock.children;
-    for (let i = 0; i < allChildren.length; i++) {
-      allChildren[i].style.margin = '0';
-      allChildren[i].style.whiteSpace = 'nowrap';
-      allChildren[i].style.textAlign = i === 0 ? 'left' : 'right';
-      allChildren[i].style.flex = 'unset';
-      allChildren[i].style.width = 'auto';
+      const allChildren = totalBlock.children;
+      for (let i = 0; i < allChildren.length; i++) {
+        allChildren[i].style.margin = '0';
+        allChildren[i].style.whiteSpace = 'nowrap';
+        allChildren[i].style.textAlign = i === 0 ? 'left' : 'right';
+        allChildren[i].style.flex = 'unset';
+        allChildren[i].style.width = 'auto';
+      }
     }
-  }
 
-  document.body.appendChild(clone);
+    document.body.appendChild(clone);
 
-  await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 200));
 
-  const canvas = await html2canvas(clone, { scale: 2, useCORS: true });
+    const canvas = await html2canvas(clone, { scale: 2, useCORS: true });
 
-  const imgData = canvas.toDataURL('image/png');
-  const pdf = new jsPDF('p', 'pt', 'a4');
-  const pageHeight = pdf.internal.pageSize.getHeight();
-  const pageWidth = pdf.internal.pageSize.getWidth();
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'pt', 'a4');
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const pageWidth = pdf.internal.pageSize.getWidth();
 
-  const imgWidth = pageWidth;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-  let heightLeft = imgHeight;
-  let position = 0;
+    let heightLeft = imgHeight;
+    let position = 0;
 
-  // First page
-  pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-  heightLeft -= pageHeight;                                       
-
-  while (heightLeft > 0) {
-    position = heightLeft - imgHeight;
-    pdf.addPage();
+    // First page
     pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
     heightLeft -= pageHeight;
-  }
 
-  pdf.save('invoice.pdf');
-  document.body.removeChild(clone);
-};
+    while (heightLeft > 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    pdf.save('invoice.pdf');
+    document.body.removeChild(clone);
+  };
 
 
 
@@ -160,7 +161,20 @@ const handleDownload = async () => {
             <>
               <div ref={invoiceRef} style={{ backgroundColor: 'white', color: 'black', position: 'relative' }}>
                 {/* DEVAKI logo for token 220088 */}
-               
+                {token === "220088" && (
+                  <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: 20, marginBottom: 10 }}>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/media/devaki-logo.png`}
+                      alt="DEVAKI"
+                      style={{
+                        width: '120px',
+                        height: 'auto',
+                        background: 'transparent',
+                        marginLeft: 10,
+                      }}
+                    />
+                  </div>
+                )}
                 {/* Header */}
                 <div className="row g-0">
                   <div className="col-12 d-flex flex-column align-items-center mb-2">
@@ -222,7 +236,7 @@ const handleDownload = async () => {
                     <tbody>
                       {pavtiData.map((t, idx) => {
                         const brk = calculateBrokerage(t);
-                        const pl = t.mode === 'buy'? ((t.sellPrice - t.buyPrice) * t.quantity) - brk : ((t.buyPrice - t.sellPrice) * t.quantity) - brk;
+                        const pl = t.mode === 'buy' ? ((t.sellPrice - t.buyPrice) * t.quantity) - brk : ((t.buyPrice - t.sellPrice) * t.quantity) - brk;
                         const plColor = pl >= 0 ? 'green' : 'red';
                         return (
                           <tr key={idx} className="align-middle text-muted">
@@ -231,7 +245,7 @@ const handleDownload = async () => {
                             <td>{t.stockName} ({t.mode})</td>
                             <td className="text-center">&#8377;{t.buyPrice}</td>
                             <td className="text-center">&#8377;{t.sellPrice}</td>
-                            <td className="text-center">{t.quantity}</td>
+                            <td className="text-center">{t.quantity}{t.lotSize && t.lotSize > 0 ? `(${t.lotSize})` : ''}</td>
                             <td className="text-center">&#8377;{brk}</td>
                             <td className="text-end" style={{ color: plColor }}>
                               &#8377;{pl.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
@@ -262,11 +276,20 @@ const handleDownload = async () => {
                 </div>
 
                 <div className="p-3 d-flex flex-column flex-sm-row justify-content-between align-items-center" style={{ backgroundColor: '#e7e0d6' }}>
-                  <h6 className="fw-bold" style={{ fontSize : "20px" }}>TOTAL</h6>
+                  <h6 className="fw-bold" style={{ fontSize: "20px" }}>TOTAL</h6>
                   <div className="text-end">
                     {/* <p className="mb-1 text-success" style={{ fontWeight: 600 }}>Seven thousand six hundred eighty-five</p> */}
-                    <p className="mb-0" style={{ color: totalProfit >= 0 ? 'green' : 'red', fontWeight: 'bold' }}>
-                      &#8377; {totalProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    <p
+                      className="mb-0"
+                      style={{ color: totalProfit >= 0 ? 'green' : 'red', fontWeight: 'bold' }}
+                    >
+                      ₹
+                      {
+                        (totalProfit >= 0
+                          ? totalProfit + userInfo.margin
+                          : totalProfit + userInfo.margin
+                        ).toLocaleString('en-IN', { minimumFractionDigits: 2 })
+                      }
                     </p>
                   </div>
                 </div>

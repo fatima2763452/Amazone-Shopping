@@ -2,25 +2,26 @@ import React, { useState } from 'react';
 import NavBar from "../Components/NavBar";
 import axios from "axios";
 import Button from '@mui/material/Button';
+
 import { useNavigate } from 'react-router-dom';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
-function FormTwo() {
+import Alert from '@mui/material/Alert';
+function Form() {
   const navigate = useNavigate();
-  const [formTwoData, setFormTwoData] = useState({
-    client: "",
+  const [showAlert, setShowAlert] = useState(false);
+  const [formData, setFormData] = useState({
+    clientName: "",
     stockName: "", 
     idCode: "",
     quantity: "", 
     buyPrice: "",
-    mode:"",
-    tradeDate : "",
+    sellPrice:"", 
+    tradeDate:"",
+    lotSize: "",
   });
 
   const handleChanges = (event) => {
     const { name, value } = event.target;
-
-    setFormTwoData(data => ({
+    setFormData(data => ({
       ...data,
       [name]: value,
     }));
@@ -28,21 +29,39 @@ function FormTwo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { client, stockName, idCode, quantity, buyPrice, tradeDate, mode } = formTwoData;
-    console.log(formTwoData)
-      if (formTwoData != null) {
-        navigate(`/TredBuyReceipt`, {
-          state: {
-            client,
-            stockName,
-            idCode,
-            quantity: Number(quantity),
-            buyPrice: Number(buyPrice),
-            tradeDate,
-            mode
-          }
-        });
+    const { clientName, stockName, idCode, quantity, buyPrice, sellPrice, tradeDate, brokerage, mode, lotSize } = formData;
+    // Get token from localStorage
+    const token = localStorage.getItem('authToken');
+
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/forms/createForm`, {
+        clientName,
+        stockName,
+        idCode,
+        quantity: Number(quantity),
+        lotSize: Number(lotSize),
+        buyPrice: Number(buyPrice),
+        sellPrice: Number(sellPrice),
+        tradeDate,
+        brokerage: Number(brokerage),
+        mode,
+        token // Add token to payload
+      });
+
+      if (res.data.success) {
+        const { uniquckId } = res.data;
+        navigate(`/receipt/${uniquckId}`);
       }
+
+    } catch (err) {
+      if (err.response && err.response.data) {
+        alert("Backend error: " + JSON.stringify(err.response.data));
+        console.error("Backend error:", err.response.data);
+      } else {
+        alert("Some error occurred during submission.");
+        console.error(err);
+      }
+    }
   };
 
   return (
@@ -53,12 +72,12 @@ function FormTwo() {
 
       <form className='row' onSubmit={handleSubmit}>
         <div className="col-md-6 mb-3">
-          <label htmlFor="client" className="form-label text-muted">Client Name</label>
+          <label htmlFor="clientName" className="form-label text-muted">Client Name</label>
           <input
             type="text"
-            id="client"
-            name="client"
-            value={formTwoData.client}
+            id="clientName"
+            name="clientName"
+            value={formData.clientName}
             onChange={handleChanges}
             className="form-control text-muted"
             placeholder="Enter your client name"
@@ -71,7 +90,7 @@ function FormTwo() {
             type="text"
             id="stockName"
             name="stockName"
-            value={formTwoData.stockName}
+            value={formData.stockName}
             onChange={handleChanges}
             className="form-control text-muted"
             placeholder="Enter your stock name"
@@ -84,7 +103,7 @@ function FormTwo() {
             type="text"
             id="idCode"
             name="idCode"
-            value={formTwoData.idCode}
+            value={formData.idCode}
             onChange={handleChanges}
             className="form-control text-muted"
             placeholder="Enter user ID code"
@@ -97,10 +116,23 @@ function FormTwo() {
             type="number"
             id="quantity"
             name="quantity"
-            value={formTwoData.quantity}
+            value={formData.quantity}
             onChange={handleChanges}
             className="form-control text-muted"
             placeholder="Enter your stock quantity"
+          />
+        </div>
+
+         <div className="col-md-12 mb-3">
+          <label htmlFor="lotSize" className="form-label text-muted">Lot Size</label>
+          <input
+            type="number"
+            id="lotSize"
+            name="lotSize"
+            value={formData.lotSize}
+            onChange={handleChanges}
+            className="form-control text-muted"
+            placeholder="Enter your Lot Size"
           />
         </div>
 
@@ -110,10 +142,23 @@ function FormTwo() {
             type="number"
             id="buyPrice"
             name="buyPrice"
-            value={formTwoData.buyPrice}
+            value={formData.buyPrice}
             onChange={handleChanges}
             className="form-control text-muted"
             placeholder="Enter buying price"
+          />
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <label htmlFor="sellPrice" className="form-label text-muted">Sell Price</label>
+          <input
+            type="number"
+            id="sellPrice"
+            name="sellPrice"
+            value={formData.sellPrice}
+            onChange={handleChanges}
+            className="form-control text-muted"
+            placeholder="Enter selling price"
           />
         </div>
 
@@ -123,7 +168,7 @@ function FormTwo() {
             type="date"
             id="tradeDate"
             name="tradeDate"
-            value={formTwoData.tradeDate}
+            value={formData.tradeDate}
             onChange={handleChanges}
             className="form-control text-muted"
           />
@@ -135,7 +180,7 @@ function FormTwo() {
             type="text"
             id="mode"
             name="mode"
-            value={formTwoData.mode}
+            value={formData.mode}
             onChange={handleChanges}
             className="form-control text-muted"
             placeholder="Enter your mode eg. 'buy', 'sell' "
@@ -161,4 +206,4 @@ function FormTwo() {
   );
 }
 
-export default FormTwo;
+export default Form;
