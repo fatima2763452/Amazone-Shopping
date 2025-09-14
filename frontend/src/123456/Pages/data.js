@@ -31,4 +31,9 @@ export const imgAndSign = {
      img: 'media/cropped-img6.jpg',
     signature: 'media/s6.jpg'
   },
+  '809010': {
+     img: 'media/radhe-logo-img8.jpg',
+    signature: 'media/s8.jpg',
+    nameLogo : 'media/radhe-name.jpg'
+  },
 };

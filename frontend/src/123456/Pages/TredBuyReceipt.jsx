@@ -83,7 +83,7 @@ function TredBuyReceipt() {
                 </tbody>
               </table>
               <div className="text-center mt-4 fw-semibold text-primary">
-                Including 0.01% Brokerage Charge
+                Including 0.02% Brokerage Charge
               </div>
             </div>
           </div>

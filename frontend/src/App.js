@@ -102,28 +102,28 @@ import Admin7InvestForm from './307040/Pages/InvestForm';
 import Admin7InvestReceipt from './307040/Pages/InvestReceipt'; 
 
 
-import Admin8Holdings from './123456/Pages/Holdings';
-import Admin8Pavti from './123456/Pages/Pavti';
-import Admin8Receipt from './123456/Pages/Receipt';
-import Admin8PavtiForm from './123456/Pages/PavtiForm';
-import Admin8Form from './123456/Pages/Form';
-import Admin8FormTwo from './123456/Pages/FormTwo';
-import Admin8TredBuyReceipt from './123456/Pages/TredBuyReceipt';
-import Admin8AverageCalce from './123456/Pages/AverageCalce';
-import Admin8InvestForm from './123456/Pages/InvestForm';
-import Admin8InvestReceipt from './123456/Pages/InvestReceipt';
-import Admin8SMSSystem from './123456/Pages/SMS_System/SMSForm';
+import Admin8Holdings from './809010/Pages/Holdings';
+import Admin8Pavti from './809010/Pages/Pavti';
+import Admin8Receipt from './809010/Pages/Receipt';
+import Admin8PavtiForm from './809010/Pages/PavtiForm';
+import Admin8Form from './809010/Pages/Form';
+import Admin8FormTwo from './809010/Pages/FormTwo';
+import Admin8TredBuyReceipt from './809010/Pages/TredBuyReceipt';
+import Admin8AverageCalce from './809010/Pages/AverageCalce';
+import Admin8InvestForm from './809010/Pages/InvestForm';
+import Admin8InvestReceipt from './809010/Pages/InvestReceipt';
+// import Admin8SMSSystem from './809010/Pages/SMS_System/SMSForm';
 
-import Admin9Holdings from './809010/Pages/Holdings';
-import Admin9Pavti from './809010/Pages/Pavti';
-import Admin9Receipt from './809010/Pages/Receipt';
-import Admin9PavtiForm from './809010/Pages/PavtiForm';
-import Admin9Form from './809010/Pages/Form';
-import Admin9FormTwo from './809010/Pages/FormTwo';
-import Admin9TredBuyReceipt from './809010/Pages/TredBuyReceipt';
-import Admin9AverageCalce from './809010/Pages/AverageCalce';
-import Admin9InvestForm from './809010/Pages/InvestForm';
-import Admin9InvestReceipt from './809010/Pages/InvestReceipt'; 
+// import Admin9Holdings from './809010/Pages/Holdings';
+// import Admin9Pavti from './809010/Pages/Pavti';
+// import Admin9Receipt from './809010/Pages/Receipt';
+// import Admin9PavtiForm from './809010/Pages/PavtiForm';
+// import Admin9Form from './809010/Pages/Form';
+// import Admin9FormTwo from './809010/Pages/FormTwo';
+// import Admin9TredBuyReceipt from './809010/Pages/TredBuyReceipt';
+// import Admin9AverageCalce from './809010/Pages/AverageCalce';
+// import Admin9InvestForm from './809010/Pages/InvestForm';
+// import Admin9InvestReceipt from './809010/Pages/InvestReceipt'; 
 
 
 import Admin10Holdings from './778899/Pages/Holdings';
@@ -176,7 +176,7 @@ function App() {
             <Route path="/investReceipt" element={<Admin2InvestReceipt />} />
           </>
         )}
-        {token === '123456' && (
+        {token === '809010' && (
           <>
      
             <Route path="/holdings" element={<Admin8Holdings />} />
@@ -189,7 +189,7 @@ function App() {
             <Route path="/averageCalce" element={<Admin8AverageCalce />} />
             <Route path="/investForm" element={<Admin8InvestForm />} />
             <Route path="/investReceipt" element={<Admin8InvestReceipt />} />
-            <Route path="/SMSForm" element={<Admin8SMSSystem/>} />
+            {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
           </>
         )}
         
@@ -279,7 +279,7 @@ function App() {
           </>
         )}
 
-        {token === '809010' && (
+        {/* {token === '809010' && (
           <>
             <Route path="/holdings" element={<Admin9Holdings />} />
             <Route path="/pavti/:idCode" element={<Admin9Pavti />} />
@@ -292,7 +292,7 @@ function App() {
             <Route path="/investForm" element={<Admin9InvestForm />} />
             <Route path="/investReceipt" element={<Admin9InvestReceipt />} />
           </>
-        )}
+        )} */}
 
         {token && !['1', '2', '3', '4'].includes(token) && (
           <Route path="/*" element={<div>Admin not found</div>} />

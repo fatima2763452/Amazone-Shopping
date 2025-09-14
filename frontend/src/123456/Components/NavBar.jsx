@@ -108,9 +108,6 @@ function NavBar() {
                <MenuItem component={Link} to="/investForm" onClick={handleCloseNavMenu}>
                 <Typography sx={{ textAlign: 'center' }}>Invest Form</Typography>
               </MenuItem>
-              <MenuItem component={Link} to="/SMSForm" onClick={handleCloseNavMenu}>
-                <Typography sx={{ textAlign: 'center' }}>SMS</Typography>
-              </MenuItem>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -150,9 +147,6 @@ function NavBar() {
             </Button>
             <Button component={Link} to="/investForm" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
               Invest Form
-            </Button>
-            <Button component={Link} to="/SMSForm" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
-              SMS
             </Button>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
