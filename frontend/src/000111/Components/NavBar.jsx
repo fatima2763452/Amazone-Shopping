@@ -91,7 +91,7 @@ function NavBar() {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
              <MenuItem component={Link} to="/form" onClick={handleCloseNavMenu}>
-                <Typography sx={{ textAlign: 'center' }}>Home</Typography>
+                <Typography sx={{ textAlign: 'center' }}>Exit</Typography>
               </MenuItem>
               <MenuItem component={Link} to="/formTwo" onClick={handleCloseNavMenu}>
                 <Typography sx={{ textAlign: 'center' }}>Tred buy receipt</Typography>
@@ -131,7 +131,7 @@ function NavBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Button component={Link} to="/form" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
-              Home
+              Exit
             </Button>
             <Button component={Link} to="/formTwo" onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
               Tred buy receipt

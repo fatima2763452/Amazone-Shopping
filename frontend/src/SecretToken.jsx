@@ -64,7 +64,6 @@ function SecretToken() {const [token, setToken] = useState('');
             value={token}
             onChange={handleChange}
             className="form-control text-muted"
-            placeholder="Enter your Secret token"
           />
         </div>
         <div className="w-100 text-center mt-4">
