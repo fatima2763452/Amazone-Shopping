@@ -32,3 +32,4 @@ export const imgAndSign = {
     signature: 'media/s6.jpg'
   },
 };
+
