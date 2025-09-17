@@ -161,7 +161,7 @@ function Receipt() {
             </h2>
             <div className="user-info">
               User: {receiptData.clientName}<br />
-              ID: {receiptData.idCode}
+              {/* ID: {receiptData.idCode} */}
             </div>
           </div>
 
@@ -180,8 +180,8 @@ function Receipt() {
               <h4>{new Date(receiptData.tradeDate).toLocaleDateString('en-GB')}</h4>
             </div>
             <div className="grid-item">
-              <p>Trade ID</p>
-              <h4>{receiptData.uniquckId || '—'}</h4>
+              <p>Customer ID</p>
+              <h4>{receiptData.idCode || '—'}</h4>
             </div>
             <div className="grid-item">
               <p>Executed Price</p>
