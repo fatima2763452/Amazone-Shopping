@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import '../Styles/receipt.css';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import Button from '@mui/material/Button';
@@ -27,43 +28,79 @@ function Receipt() {
 
   const handleDownloadPDF = async () => {
     const input = document.getElementById('receipt-pdf');
+    if (!input) return;
+
+    // Clone node to remove buttons from PDF
+    const clone = input.cloneNode(true);
+    clone.querySelectorAll('.no-print').forEach(el => el.remove());
+
+    // Force card styles on clone
+    clone.style.background = '#fff';
+    clone.style.width = '400px';
+    clone.style.borderRadius = '20px';
+    clone.style.boxShadow = '0 8px 20px rgba(0,0,0,0.15)';
+    clone.style.overflow = 'hidden';
+    clone.style.margin = '40px auto'; // thoda upar niche bhi margin
+
+    // Force header styles
+    const header = clone.querySelector('.header');
+    if (header) {
+      header.style.background = 'linear-gradient(90deg,#2563eb,#1d4ed8)';
+      header.style.color = '#fff';
+      header.style.padding = '20px';
+      header.style.display = 'flex';
+      header.style.justifyContent = 'space-between';
+      header.style.alignItems = 'center';
+    }
+
+    // Temporary add to DOM for html2canvas
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    document.body.appendChild(clone);
 
     try {
-      // render at high resolution
-      const canvas = await html2canvas(input, {
+      const canvas = await html2canvas(clone, {
         scale: 3,
         useCORS: true,
         scrollY: -window.scrollY,
+        backgroundColor: null,
       });
       const imgData = canvas.toDataURL('image/png');
 
-      // create A4
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();
 
-      // image size in mm
       const pxToMm = 0.264583;
       const imgWmm = canvas.width * pxToMm;
       const imgHmm = canvas.height * pxToMm;
 
-      // force a 20 mm left/right margin
+      // Fit card to page (width and height)
       const marginLR = 20;
+      const marginTop = 20;
       const availableW = pageW - marginLR * 2;
+      const availableH = pageH - marginTop * 2;
+      const scaleW = availableW / imgWmm;
+      const scaleH = availableH / imgHmm;
+      const scale = Math.min(scaleW, scaleH, 1); // never upscale
 
-      // scale image to fit that available width
-      const scale = availableW / imgWmm;
       const finalW = imgWmm * scale;
       const finalH = imgHmm * scale;
 
-      // center vertically, and x at left margin
-      const x = marginLR;
+      const x = (pageW - finalW) / 2;
       const y = (pageH - finalH) / 2;
+
+      // Draw light grey background before adding image
+      pdf.setFillColor(240, 242, 245); // #f0f2f5
+      pdf.rect(0, 0, pageW, pageH, 'F');
 
       pdf.addImage(imgData, 'PNG', x, y, finalW, finalH);
       pdf.save('Exit Receipt.pdf');
     } catch (err) {
       console.error(err);
+
+    } finally {
+      document.body.removeChild(clone);
     }
   };
 
@@ -86,98 +123,97 @@ function Receipt() {
     netAmount = (buyPrice * quantity) - (sellPrice * quantity) - brokerage;
   }
 
+  // Net amount color class
+  const netBoxClass = netAmount >= 0 ? 'net-box net-profit' : 'net-box net-loss';
 
   return (
     <>
       <NavBar />
-      <div className="py-5 px-2" style={{ background: '#f0f2f5', minHeight: '100vh' }}>
-        <div id="receipt-pdf">
-          <div className="card shadow-lg mx-auto" style={{ maxWidth: '600px', borderTop: '6px solid rgba(0, 123, 255, 0.76)', borderRadius: '16px' }}>
-            <div className="card-body reciepit-card-body-tabel-padding p-4">
-              <div className="text-center mb-4">
-                <h1 className="h4">Receipt</h1>
-                <small className="text-muted">
-                  Invoice No: <strong>Invoice no.</strong> In##00{Math.floor(10000 + Math.random() * 90000)} &nbsp; | &nbsp; Date: <strong>{new Date(receiptData.tradeDate).toLocaleDateString('en-GB')}</strong>
-                </small>
-              </div>
-
-              <table className="table table-borderless" style={{ marginBottom: 0, width: '100%' }}>
-                <tbody>
-                  <tr className="border-top border-primary" style={{ borderTopWidth: 2 }}>
-                    <td style={labelStyle}>Client Name:</td>
-                    <td style={valueStyle}>{receiptData.clientName}</td>
-                  </tr>
-                  <tr>
-                    <td style={labelStyle}>Customer ID:</td>
-                    <td style={valueStyle}>{receiptData.idCode}</td>
-                  </tr>
-                  <tr>
-                    <td style={labelStyle}>Stock Name:</td>
-                    <td style={valueStyle}>{receiptData.stockName}</td>
-                  </tr>
-                  <tr>
-                    <td style={labelStyle}>Quantity:</td>
-                    <td style={valueStyle}>
-                      {receiptData.quantity}
-                      {receiptData.lotSize && receiptData.lotSize > 0
-                        ? ` (${receiptData.lotSize})`
-                        : ''}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={labelStyle}> Mode:</td>
-                    <td style={valueStyle}>{receiptData.mode}</td>
-                  </tr>
-                  <tr>
-                    <td style={labelStyle}>Buy Price:</td>
-                    <td style={valueStyle}>₹{Number(receiptData.buyPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-                  </tr>
-                  <tr>
-                    <td style={labelStyle}>Sell Price:</td>
-                    <td style={valueStyle}>₹{Number(receiptData.sellPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-                  </tr>
-                  {/* <tr>
-                    <td style={labelStyle}>Total Buying:</td>
-                    <td style={valueStyle}>₹{(receiptData.buyPrice * receiptData.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-                  </tr>
-                  <tr>
-                    <td style={labelStyle}>Total Selling:</td>
-                    <td style={valueStyle}>₹{(receiptData.sellPrice * receiptData.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-                  </tr> */}
-                  <tr>
-                    <td style={labelStyle}>Brokerage (0.01%):</td>
-                    <td style={valueStyle}>₹{brokerage.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-                  </tr>
-                  <tr className="border-top border-primary" style={{ borderTopWidth: 2 }}>
-                    <td style={{ ...labelStyle, fontWeight: 700, color: '#212529' }}>
-                      Net Amount ({netAmount >= 0 ? 'Profit' : 'Loss'}):
-                    </td>
-                    <td style={{
-                      ...valueStyle,
-                      fontWeight: 700,
-                      color: netAmount >= 0 ? '#198754' : '#dc3545'
-                    }}>
-                      ₹{Math.abs(netAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              {/* <div className="text-center mt-4 fw-semibold text-primary">
-                ✅ Thank you for trading with us!
-              </div> */}
+      <div style={{ background: '#f0f2f5', minHeight: '100vh', padding: '32px 0' }}>
+        <div
+          id="receipt-pdf"
+          className="receipt"
+          style={{
+            background: '#fff',
+            width: 400,
+            borderRadius: 20,
+            boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
+            overflow: 'hidden',
+            margin: '0 auto'
+          }}
+        >
+          {/* Header */}
+          <div
+            className="header"
+            style={{
+              background: 'linear-gradient(90deg,#2563eb,#1d4ed8)',
+              color: '#fff',
+              padding: 20,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <h2>
+              RADHE BROKERAGE HOUSE
+              <br />
+              <span style={{ fontSize: 12, fontWeight: 400 }}>Trade Exit Receipt</span>
+            </h2>
+            <div className="user-info">
+              User: {receiptData.clientName}<br />
+              ID: {receiptData.idCode}
             </div>
           </div>
-        </div>
-        <div className="d-flex justify-content-center">
-          <Button
-            onClick={handleDownloadPDF}
-            variant="contained"
-            sx={{ width: { xs: '90%', sm: '90%', md: '600px' }, display: 'block', mx: { xs: 'auto', md: 0 }, minWidth: 100, boxShadow: 20 }}
-            className="mt-4"
-          >
-            Download
-          </Button>
+
+          {/* Stock Info */}
+          <div className="stock-card">
+            <h3>{receiptData.stockName}</h3>
+            <span>
+              Exit ({receiptData.mode ? receiptData.mode.toUpperCase() : ''})
+            </span>
+          </div>
+
+          {/* Grid */}
+          <div className="grid">
+            <div className="grid-item">
+              <p>Exit Date</p>
+              <h4>{new Date(receiptData.tradeDate).toLocaleDateString('en-GB')}</h4>
+            </div>
+            <div className="grid-item">
+              <p>Trade ID</p>
+              <h4>{receiptData.uniquckId || '—'}</h4>
+            </div>
+            <div className="grid-item">
+              <p>Executed Price</p>
+              <h4>₹{Number(receiptData.sellPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h4>
+            </div>
+          </div>
+
+          {/* Details */}
+          <div className="details">
+            <p><strong>Product Type:</strong> {receiptData.mode ? receiptData.mode.toUpperCase() : ''}</p>
+            <p><strong>Quantity:</strong> {receiptData.quantity}</p>
+            <p><strong>Avg. Buy Price:</strong> ₹{Number(receiptData.buyPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
+            <p><strong>Exit Price:</strong> ₹{Number(receiptData.sellPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
+            {/* <p><strong>Current Value:</strong> ₹{(receiptData.sellPrice * receiptData.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p> */}
+            <p><strong>Brokerage:</strong> ₹{brokerage.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
+            <p><strong>Realised P&amp;L:</strong> {netAmount >= 0 ? '+' : '-'} ₹{Math.abs(netAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
+          </div>
+
+          {/* Net Amount */}
+          <div className={netBoxClass}>
+            Net Amount Received: ₹{(netAmount + (netAmount < 0 ? 0 : 0)).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+          </div>
+
+          {/* Actions */}
+          <div className="actions no-print">
+            <button className="btn btn-download" onClick={handleDownloadPDF}>Print Receipt</button>
+          </div>
+
+          {/* Footer */}
+          <div className="footer">
+            © Radhe Brokerage
+          </div>
         </div>
       </div>
     </>

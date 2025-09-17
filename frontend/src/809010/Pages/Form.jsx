@@ -16,7 +16,6 @@ function Form() {
     buyPrice: "",
     sellPrice:"", 
     tradeDate:"",
-    lotSize: "",
   });
 
   const handleChanges = (event) => {
@@ -29,7 +28,7 @@ function Form() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { clientName, stockName, idCode, quantity, buyPrice, sellPrice, tradeDate, brokerage, mode, lotSize } = formData;
+    const { clientName, stockName, idCode, quantity, buyPrice, sellPrice, tradeDate, brokerage, mode } = formData;
     // Get token from localStorage
     const token = localStorage.getItem('authToken');
 
@@ -39,7 +38,6 @@ function Form() {
         stockName,
         idCode,
         quantity: Number(quantity),
-        lotSize: Number(lotSize),
         buyPrice: Number(buyPrice),
         sellPrice: Number(sellPrice),
         tradeDate,
@@ -120,19 +118,6 @@ function Form() {
             onChange={handleChanges}
             className="form-control text-muted"
             placeholder="Enter your stock quantity"
-          />
-        </div>
-
-         <div className="col-md-12 mb-3">
-          <label htmlFor="lotSize" className="form-label text-muted">Lot Size</label>
-          <input
-            type="number"
-            id="lotSize"
-            name="lotSize"
-            value={formData.lotSize}
-            onChange={handleChanges}
-            className="form-control text-muted"
-            placeholder="Enter your Lot Size"
           />
         </div>
 

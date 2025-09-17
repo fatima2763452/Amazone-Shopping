@@ -13,7 +13,6 @@ function InvestForm() {
   const [info, setInfo] = useState({
     companyName: "",
     customerName: "",
-    customerId: "",
     fatherName: "",
     dob: "",
     gender: "",
@@ -74,19 +73,6 @@ function InvestForm() {
               size="medium"
             />
           </Box>
-
-          <Box className="col-md-6 mb-4" sx={{ width: '100%' }}>
-            <TextField
-              fullWidth
-              label="Customer Id"
-              name="customerId"
-              value={info.customerId}
-              onChange={handleChange}
-              variant="outlined"
-              size="medium"
-            />
-          </Box>
-
           <Box className="col-md-6 mb-4" sx={{ width: '100%' }}>
             <TextField
               fullWidth
