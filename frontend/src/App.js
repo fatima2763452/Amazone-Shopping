@@ -23,18 +23,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SecretToken from './SecretToken';
 
 
-// import Admin1Holdings from './110099/Pages/Holdings';
-// import Admin1Pavti from './110099/Pages/Pavti';
-// import Admin1Receipt from './110099/Pages/Receipt';
-// import Admin1PavtiForm from './110099/Pages/PavtiForm';
-// import Admin1Form from './110099/Pages/Form';
-// import Admin1FormTwo from './110099/Pages/FormTwo';
-// import Admin1TredBuyReceipt from './110099/Pages/TredBuyReceipt';
-// import Admin1AverageCalce from './110099/Pages/AverageCalce';
-// import Admin1InvestForm from './110099/Pages/InvestForm';
-// import Admin1InvestReceipt from './110099/Pages/InvestReceipt';
-
-
 import Admin2Holdings from './220088/Pages/Holdings';
 import Admin2Pavti from './220088/Pages/Pavti';
 import Admin2Receipt from './220088/Pages/Receipt';
@@ -114,17 +102,6 @@ import Admin8InvestForm from './809010/Pages/InvestForm';
 import Admin8InvestReceipt from './809010/Pages/InvestReceipt';
 // import Admin8SMSSystem from './809010/Pages/SMS_System/SMSForm';
 
-// import Admin9Holdings from './809010/Pages/Holdings';
-// import Admin9Pavti from './809010/Pages/Pavti';
-// import Admin9Receipt from './809010/Pages/Receipt';
-// import Admin9PavtiForm from './809010/Pages/PavtiForm';
-// import Admin9Form from './809010/Pages/Form';
-// import Admin9FormTwo from './809010/Pages/FormTwo';
-// import Admin9TredBuyReceipt from './809010/Pages/TredBuyReceipt';
-// import Admin9AverageCalce from './809010/Pages/AverageCalce';
-// import Admin9InvestForm from './809010/Pages/InvestForm';
-// import Admin9InvestReceipt from './809010/Pages/InvestReceipt'; 
-
 
 import Admin10Holdings from './778899/Pages/Holdings';
 import Admin10Pavti from './778899/Pages/Pavti';
@@ -137,6 +114,41 @@ import Admin10AverageCalce from './778899/Pages/AverageCalce';
 import Admin10InvestForm from './778899/Pages/InvestForm';
 import Admin10InvestReceipt from './778899/Pages/InvestReceipt'; 
 
+
+import Admin1Holdings from './109080/Pages/Holdings';
+import Admin1Pavti from './109080/Pages/Pavti';
+import Admin1Receipt from './109080/Pages/Receipt';
+import Admin1PavtiForm from './109080/Pages/PavtiForm';
+import Admin1Form from './109080/Pages/Form';
+import Admin1FormTwo from './109080/Pages/FormTwo';
+import Admin1TredBuyReceipt from './109080/Pages/TredBuyReceipt';
+import Admin1AverageCalce from './109080/Pages/AverageCalce';
+import Admin1InvestForm from './109080/Pages/InvestForm';
+import Admin1InvestReceipt from './109080/Pages/InvestReceipt';
+
+
+import Admin9Holdings from './657687/Pages/Holdings';
+import Admin9Pavti from './657687/Pages/Pavti';
+import Admin9Receipt from './657687/Pages/Receipt';
+import Admin9PavtiForm from './657687/Pages/PavtiForm';
+import Admin9Form from './657687/Pages/Form';
+import Admin9FormTwo from './657687/Pages/FormTwo';
+import Admin9TredBuyReceipt from './657687/Pages/TredBuyReceipt';
+import Admin9AverageCalce from './657687/Pages/AverageCalce';
+import Admin9InvestForm from './657687/Pages/InvestForm';
+import Admin9InvestReceipt from './657687/Pages/InvestReceipt';
+
+import Admin11Holdings from './434567/Pages/Holdings';
+import Admin11Pavti from './434567/Pages/Pavti';
+import Admin11Receipt from './434567/Pages/Receipt';
+import Admin11PavtiForm from './434567/Pages/PavtiForm';
+import Admin11Form from './434567/Pages/Form';
+import Admin11FormTwo from './434567/Pages/FormTwo';
+import Admin11TredBuyReceipt from './434567/Pages/TredBuyReceipt';
+import Admin11AverageCalce from './434567/Pages/AverageCalce';
+import Admin11InvestForm from './434567/Pages/InvestForm';
+import Admin11InvestReceipt from './434567/Pages/InvestReceipt';
+
 function App() {
   const token = localStorage.getItem('authToken'); // Token to identify admin
 
@@ -144,22 +156,43 @@ function App() {
     <BrowserRouter>
       <Routes>
         {!token && <Route path="/*" element={<SecretToken />} />}
-        {/* {token === '110099' && (
+
+
+         {token === '109080' && (
           <>
-            
+     
             <Route path="/holdings" element={<Admin1Holdings />} />
             <Route path="/pavti/:idCode" element={<Admin1Pavti />} />
-            <Route path="/receipt/:uniqukId" element={<Admin1Receipt />} />
+            <Route path="/receipt/:uniquckId" element={<Admin1Receipt />} />
             <Route path="/pavti" element={<Admin1PavtiForm />} />
             <Route path="/form" element={<Admin1Form />} />
             <Route path="/formTwo" element={<Admin1FormTwo />} />
             <Route path="/tredBuyReceipt" element={<Admin1TredBuyReceipt />} />
             <Route path="/averageCalce" element={<Admin1AverageCalce />} />
-
             <Route path="/investForm" element={<Admin1InvestForm />} />
             <Route path="/investReceipt" element={<Admin1InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
           </>
-        )} */}
+        )}
+
+        {token === '657687' && (
+          <>
+     
+            <Route path="/holdings" element={<Admin9Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin9Pavti />} />
+            <Route path="/receipt/:uniquckId" element={<Admin9Receipt />} />
+            <Route path="/pavti" element={<Admin9PavtiForm />} />
+            <Route path="/form" element={<Admin9Form />} />
+            <Route path="/formTwo" element={<Admin9FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin9TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin9AverageCalce />} />
+            <Route path="/investForm" element={<Admin9InvestForm />} />
+            <Route path="/investReceipt" element={<Admin9InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
+          </>
+        )}
+        
+
         {token === '220088' && (
           <>
   
@@ -279,20 +312,24 @@ function App() {
           </>
         )}
 
-        {/* {token === '809010' && (
+         {token === '434567' && (
           <>
-            <Route path="/holdings" element={<Admin9Holdings />} />
-            <Route path="/pavti/:idCode" element={<Admin9Pavti />} />
-            <Route path="/receipt/:uniqukId" element={<Admin9Receipt />} />
-            <Route path="/pavti" element={<Admin9PavtiForm />} />
-            <Route path="/form" element={<Admin9Form />} />
-            <Route path="/formTwo" element={<Admin9FormTwo />} />
-            <Route path="/tredBuyReceipt" element={<Admin9TredBuyReceipt />} />
-            <Route path="/averageCalce" element={<Admin9AverageCalce />} />
-            <Route path="/investForm" element={<Admin9InvestForm />} />
-            <Route path="/investReceipt" element={<Admin9InvestReceipt />} />
+     
+            <Route path="/holdings" element={<Admin11Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin11Pavti />} />
+            <Route path="/receipt/:uniquckId" element={<Admin11Receipt />} />
+            <Route path="/pavti" element={<Admin11PavtiForm />} />
+            <Route path="/form" element={<Admin11Form />} />
+            <Route path="/formTwo" element={<Admin11FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin11TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin11AverageCalce />} />
+            <Route path="/investForm" element={<Admin11InvestForm />} />
+            <Route path="/investReceipt" element={<Admin11InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin11SMSSystem/>} /> */}
           </>
-        )} */}
+        )}
+
+
 
         {token && !['1', '2', '3', '4'].includes(token) && (
           <Route path="/*" element={<div>Admin not found</div>} />

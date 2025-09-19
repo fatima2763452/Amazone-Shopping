@@ -39,10 +39,16 @@ function SecretToken() {const [token, setToken] = useState('');
       case '809010':
         navigate('/form');
         break;
-      // case '809010':
-      //   navigate('/form');
-      //   break;
+      case '109080':               //new
+        navigate('/form');
+        break;
       case '778899':
+        navigate('/form');
+        break;
+      case '657687':              //new
+        navigate('/form');
+        break;
+      case '434567':              // new
         navigate('/form');
         break;
       default:
