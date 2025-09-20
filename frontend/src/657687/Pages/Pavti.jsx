@@ -6,7 +6,7 @@ import NavBar from '../Components/NavBar';
 import axios from "axios"
 import { imgAndSign } from "./data.js";
 import logoImg from '../img/LOGO.jpg';
-import signatureImg from '../img/signature.png';
+import signatureImg from '../img/signature.jpg';
 function Pavti() {
   const invoiceRef = useRef();
   const { idCode } = useParams();
