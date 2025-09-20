@@ -3,7 +3,8 @@ import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import NavBar from '../Components/NavBar';
-import { imgAndSign } from "./data.js";
+// import { imgAndSign } from "./data.js";
+import signatureImg from '../img/signature.jpg';
 
 function InvestReceipt() {
   const token = localStorage.getItem('authToken');
@@ -142,7 +143,7 @@ function InvestReceipt() {
           <div style={{ width: '90%', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 50 }}>
             <span style={{ fontStyle: 'italic', fontSize: '1em' }}>Signature of Authorized Officer</span>
             <img
-              src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`}
+              src={signatureImg}
               alt="Signature"
               style={{ maxWidth: 120, height: 'auto' }}
             />
