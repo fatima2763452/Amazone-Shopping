@@ -115,7 +115,7 @@ function TredBuyReceipt() {
             }}
           >
             <div>
-              <div style={{ fontWeight: 700, fontSize: 18 }}>RADHE BROKERAGE HOUSE</div>
+              <div style={{ fontWeight: 700, fontSize: 18 }}>ABBOT Wealth Management Ltd.</div>
               <div style={{ fontSize: 12, fontWeight: 400 }}>Trade Buy Receipt</div>
             </div>
             <div style={{ fontSize: 12, textAlign: 'right', lineHeight: 1.4 }}>

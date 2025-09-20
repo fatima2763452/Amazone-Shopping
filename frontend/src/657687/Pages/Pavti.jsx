@@ -5,7 +5,7 @@ import { data, useNavigate, useParams } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import axios from "axios"
 import { imgAndSign } from "./data.js";
-
+import logoImg from '../img/LOGO.jpg';
 
 function Pavti() {
   const invoiceRef = useRef();
@@ -102,18 +102,18 @@ if (headerRow) {
   headerRow.style.marginTop = '20px';
   headerRow.style.marginBottom = '10px';
 
-  // Left: Name logo
-  const nameLogoImg = headerRow.querySelector('img[alt="DEVAKI"]');
-  if (nameLogoImg) {
-    nameLogoImg.style.position = 'static';
-    nameLogoImg.style.width = '160px';
-    nameLogoImg.style.height = 'auto';
-    nameLogoImg.style.marginLeft = '10px';
-    nameLogoImg.style.marginRight = 'auto'; // push org name center
-    nameLogoImg.style.marginBottom = '0';
-    nameLogoImg.style.maxWidth = '40vw';
-    nameLogoImg.style.minWidth = '80px';
-  }
+  // // Left: Name logo
+  // const nameLogoImg = headerRow.querySelector('img[alt="DEVAKI"]');
+  // if (nameLogoImg) {
+  //   nameLogoImg.style.position = 'static';
+  //   nameLogoImg.style.width = '160px';
+  //   nameLogoImg.style.height = 'auto';
+  //   nameLogoImg.style.marginLeft = '10px';
+  //   nameLogoImg.style.marginRight = 'auto'; // push org name center
+  //   nameLogoImg.style.marginBottom = '0';
+  //   nameLogoImg.style.maxWidth = '40vw';
+  //   nameLogoImg.style.minWidth = '80px';
+  // }
 
   // Center: Org name
   const orgDiv = headerRow.querySelector('div');
@@ -227,10 +227,10 @@ if (headerRow) {
                 >
                   {/* Top: Name Logo */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/${imgAndSign[token].nameLogo}`}
+                    src={logoImg}
                     alt="DEVAKI"
                     style={{
-                      width: '150px',
+                      width: '160px',
                       height: 'auto',
                       background: 'transparent',
                       marginBottom: 8,
