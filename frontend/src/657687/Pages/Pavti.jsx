@@ -6,7 +6,7 @@ import NavBar from '../Components/NavBar';
 import axios from "axios"
 import { imgAndSign } from "./data.js";
 import logoImg from '../img/LOGO.jpg';
-
+import signatureImg from '../img/signature.png';
 function Pavti() {
   const invoiceRef = useRef();
   const { idCode } = useParams();
@@ -325,7 +325,7 @@ if (headerRow) {
                 <div className="mb-3 row">
                   <p className="fw-bold col-6"><b>Term & Condition</b> <br></br> Note Detailed bill that records all transactions Done by broker on behalf of His client during a trading day</p>
                   <img
-                    src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`}
+                    src={signatureImg}
                     alt="signature"
                     className="img-fluid mb-2 col-6"
                     style={{ maxWidth: '15em', objectFit: 'contain', display: 'block', margin: '0 auto' }}
