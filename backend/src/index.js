@@ -10,8 +10,8 @@ const formRoute = require("./Routes/FormRoute");
 const formTwoRoute = require("./Routes/FormTwoRoute")
 const SMSSender = require("./Routes/SMSRoute");
 const allowedOrigins = [
-"https://amazone-shopping-front.onrender.com",
-//  "http://localhost:3000"                                    
+// "https://amazone-shopping-front.onrender.com",
+ "http://localhost:3000"                                    
 ];
 const { FormModel }  =  require("./Model/FormModel")
 

@@ -5,7 +5,7 @@ import { data, useNavigate, useParams } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import axios from "axios"
 import { imgAndSign } from "./data.js";
-
+import logoImg from '../img/logo.jpg';
 
 function Pavti() {
   const invoiceRef = useRef();
@@ -163,10 +163,10 @@ const handleDownload = async () => {
                 {token === "220088" && (
                   <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: 20, marginBottom: 10 }}>
                     <img
-                      src={`${process.env.PUBLIC_URL}/media/devaki-logo.png`}
+                      src={logoImg}
                       alt="DEVAKI"
                       style={{
-                        width: '120px',
+                        width: '150px',
                         height: 'auto',
                         background: 'transparent',
                         marginLeft: 10,
@@ -178,10 +178,10 @@ const handleDownload = async () => {
                 <div className="row g-0">
                   <div className="col-12 d-flex flex-column align-items-center mb-2">
                     <img
-                      src={`${process.env.PUBLIC_URL}/${imgAndSign[token].img}`}
+                    src={logoImg}
                       alt="logo"
                       className="img-fluid mb-2"
-                      style={{ maxWidth: '90px', objectFit: 'contain', display: 'block', margin: '0 auto' }}
+                      style={{ maxWidth: '180px', objectFit: 'contain', display: 'block', margin: '0 auto' }}
                     />
                     <div
                       style={{

@@ -212,7 +212,7 @@ function Receipt() {
 
           {/* Footer */}
           <div className="footer">
-            © Radhe Brokerage
+            © Shivalika Brokerage Pvt.
           </div>
         </div>
       </div>

@@ -212,7 +212,7 @@ function Receipt() {
 
           {/* Footer */}
           <div className="footer">
-            © Radhe Brokerage
+            © ABBOT Wealth Management Ltd.
           </div>
         </div>
       </div>
