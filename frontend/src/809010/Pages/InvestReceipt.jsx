@@ -11,6 +11,7 @@ function InvestReceipt() {
   const {
     companyName,
     customerName,
+    customerId,
     fatherName,
     dob,
     gender,
@@ -30,10 +31,33 @@ function InvestReceipt() {
     if (btn) btn.style.display = 'none'; // Hide button before screenshot
     const element = receiptRef.current;
     element.style.width = '595px';
+
     const canvas = await html2canvas(element, { scale: 2, useCORS: true });
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF('p', 'pt', 'a4');
-    pdf.addImage(imgData, 'PNG', 0, 0, 595, (canvas.height * 595) / canvas.width);
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // Calculate image size in PDF
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    // --- SCALE TO FIT ONE PAGE ---
+    let finalW = imgWidth;
+    let finalH = imgHeight;
+    let x = 0;
+    let y = 0;
+
+    // If image height > page height, scale down to fit
+    if (imgHeight > pageHeight) {
+      const scale = pageHeight / imgHeight;
+      finalW = imgWidth * scale;
+      finalH = imgHeight * scale;
+      x = (pageWidth - finalW) / 2;
+      y = 0;
+    }
+
+    pdf.addImage(imgData, 'PNG', x, y, finalW, finalH);
     pdf.save('Confirmation Form.pdf');
     element.style.width = '';
     if (btn) btn.style.display = 'block'; // Show button again
@@ -67,9 +91,10 @@ function InvestReceipt() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '90%', margin: '0 auto' }}>
             <div style={{ width: '65%' }}>
               <div style={{ fontWeight: 'bold', marginBottom: 10 , fontSize : '16px'}}>Customer Personal Information</div>
-              <div style={{ marginBottom: 8 }}><b>First Name </b>  : <span style={{ marginLeft: "10px", }}>{customerName?.split(' ')[0] || ''}</span></div>
-              <div style={{ marginBottom: 8 }}><b>Last Name</b>   : <span style={{marginLeft: "10px", }}>{customerName?.split(' ')[1] || ''}</span></div>
+              <div style={{ marginBottom: 8 }}><b>First Name </b>  : <span style={{ marginLeft: "10px", }}>{customerName}</span></div>
+              {/* <div style={{ marginBottom: 8 }}><b>Last Name</b>   : <span style={{marginLeft: "10px", }}>{customerName?.split(' ')[1] || ''}</span></div> */}
               <div style={{ marginBottom: 8 }}><b>Father's Name </b>  : <span style={{ marginLeft: "10px", }}>{fatherName}</span></div>
+              <div style={{ marginBottom: 8 }}><b>Custome ID</b>   : <span style={{marginLeft: "10px",  }}>{customerId}</span></div>
               <div style={{ marginBottom: 8 }}><b>Date of Birth</b>   : <span style={{ marginLeft: "10px", }}>{dob ? new Date(dob).toLocaleDateString('en-GB') : ''}</span></div>
               <div style={{ marginBottom: 8 }}><b>Gender</b>   : <span style={{ marginLeft: "10px", }}>{gender}</span></div>
               <div style={{ marginBottom: 8 }}><b>Mobile Number</b>   : <span style={{marginLeft: "10px",  }}>{mobileNumber}</span></div>

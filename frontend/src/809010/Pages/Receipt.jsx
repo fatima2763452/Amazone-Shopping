@@ -22,7 +22,7 @@ function Receipt() {
   // Intraday brokerage at 0.01% of turnover (buy+sell)*quantity
   const calculateBrokerage = ({ buyPrice, sellPrice, quantity }) => {
     const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover * 0.0001).toFixed(2));
+    return Number((turnover * 0.00005).toFixed(2));
   };
 
 
@@ -192,7 +192,7 @@ function Receipt() {
           {/* Details */}
           <div className="details">
             <p><strong>Product Type:</strong> {receiptData.mode ? receiptData.mode.toUpperCase() : ''}</p>
-            <p><strong>Quantity:</strong> {receiptData.quantity}</p>
+           <p><strong>Quantity:</strong> {receiptData.quantity} {receiptData.lotSize ? <span>({receiptData.lotSize})</span> : null}</p>
             <p><strong>Avg. Buy Price:</strong> ₹{Number(receiptData.buyPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
             <p><strong>Exit Price:</strong> ₹{Number(receiptData.sellPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
             {/* <p><strong>Current Value:</strong> ₹{(receiptData.sellPrice * receiptData.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p> */}
