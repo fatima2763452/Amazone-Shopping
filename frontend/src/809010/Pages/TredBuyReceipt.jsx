@@ -143,7 +143,7 @@ function TredBuyReceipt() {
               <h4 style={gridValueStyle}>{tradeDate ? new Date(tradeDate).toLocaleDateString('en-GB') : ''}</h4>
             </div>
             <div style={gridItemStyle}>
-              <p style={gridLabelStyle}>Trade ID</p>
+              <p style={gridLabelStyle}>Customer ID</p>
               <h4 style={gridValueStyle}>{idCode}</h4>
             </div>
             <div style={gridItemStyle}>
