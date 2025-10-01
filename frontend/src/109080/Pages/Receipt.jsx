@@ -155,7 +155,7 @@ function Receipt() {
             }}
           >
             <h2>
-              RADHE BROKERAGE HOUSE
+              ABBOTT WEALTH MANAG. LTD.
               <br />
               <span style={{ fontSize: 12, fontWeight: 400 }}>Trade Exit Receipt</span>
             </h2>
@@ -212,7 +212,7 @@ function Receipt() {
 
           {/* Footer */}
           <div className="footer">
-            © Radhe Brokerage
+            ©  ABBOTT WEALTH MANAGEMENT. LTD.
           </div>
         </div>
       </div>

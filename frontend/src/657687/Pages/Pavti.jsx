@@ -332,12 +332,21 @@ if (headerRow) {
                   />
                 </div>
 
-                <div className="p-3 d-flex flex-column flex-sm-row justify-content-between align-items-center" style={{ backgroundColor: '#e7e0d6' }}>
+               <div className="p-3 d-flex flex-column flex-sm-row justify-content-between align-items-center" style={{ backgroundColor: '#e7e0d6' }}>
                   <h6 className="fw-bold" style={{ fontSize: "20px" }}>TOTAL</h6>
                   <div className="text-end">
                     {/* <p className="mb-1 text-success" style={{ fontWeight: 600 }}>Seven thousand six hundred eighty-five</p> */}
-                    <p className="mb-0" style={{ color: totalProfit >= 0 ? 'green' : 'red', fontWeight: 'bold' }}>
-                      &#8377; {totalProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    <p
+                      className="mb-0"
+                      style={{ color: totalProfit >= 0 ? 'green' : 'red', fontWeight: 'bold' }}
+                    >
+                      ₹
+                      {
+                        (totalProfit >= 0
+                          ? totalProfit + userInfo.margin
+                          : totalProfit + userInfo.margin
+                        ).toLocaleString('en-IN', { minimumFractionDigits: 2 })
+                      }
                     </p>
                   </div>
                 </div>
