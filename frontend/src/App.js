@@ -149,6 +149,28 @@ import Admin11AverageCalce from './434567/Pages/AverageCalce';
 import Admin11InvestForm from './434567/Pages/InvestForm';
 import Admin11InvestReceipt from './434567/Pages/InvestReceipt';
 
+import Admin12Holdings from './885533/Pages/Holdings';
+import Admin12Pavti from './885533/Pages/Pavti';
+import Admin12Receipt from './885533/Pages/Receipt';
+import Admin12PavtiForm from './885533/Pages/PavtiForm';
+import Admin12Form from './885533/Pages/Form';
+import Admin12FormTwo from './885533/Pages/FormTwo';
+import Admin12TredBuyReceipt from './885533/Pages/TredBuyReceipt';
+import Admin12AverageCalce from './885533/Pages/AverageCalce';
+import Admin12InvestForm from './885533/Pages/InvestForm';
+import Admin12InvestReceipt from './885533/Pages/InvestReceipt';
+
+import Admin13Holdings from './995622/Pages/Holdings';
+import Admin13Pavti from './995622/Pages/Pavti';
+import Admin13Receipt from './995622/Pages/Receipt';
+import Admin13PavtiForm from './995622/Pages/PavtiForm';
+import Admin13Form from './995622/Pages/Form';
+import Admin13FormTwo from './995622/Pages/FormTwo';
+import Admin13TredBuyReceipt from './995622/Pages/TredBuyReceipt';
+import Admin13AverageCalce from './995622/Pages/AverageCalce';
+import Admin13InvestForm from './995622/Pages/InvestForm';
+import Admin13InvestReceipt from './995622/Pages/InvestReceipt';
+
 function App() {
   const token = localStorage.getItem('authToken'); // Token to identify admin
 
@@ -326,6 +348,40 @@ function App() {
             <Route path="/investForm" element={<Admin11InvestForm />} />
             <Route path="/investReceipt" element={<Admin11InvestReceipt />} />
             {/* <Route path="/SMSForm" element={<Admin11SMSSystem/>} /> */}
+          </>
+        )}
+
+        {token === '885533' && (
+          <>
+     
+            <Route path="/holdings" element={<Admin12Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin12Pavti />} />
+            <Route path="/receipt/:uniquckId" element={<Admin12Receipt />} />
+            <Route path="/pavti" element={<Admin12PavtiForm />} />
+            <Route path="/form" element={<Admin12Form />} />
+            <Route path="/formTwo" element={<Admin12FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin12TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin12AverageCalce />} />
+            <Route path="/investForm" element={<Admin12InvestForm />} />
+            <Route path="/investReceipt" element={<Admin12InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin12SMSSystem/>} /> */}
+          </>
+        )}
+
+        {token === '995622' && (
+          <>
+     
+            <Route path="/holdings" element={<Admin13Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin13Pavti />} />
+            <Route path="/receipt/:uniquckId" element={<Admin13Receipt />} />
+            <Route path="/pavti" element={<Admin13PavtiForm />} />
+            <Route path="/form" element={<Admin13Form />} />
+            <Route path="/formTwo" element={<Admin13FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin13TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin13AverageCalce />} />
+            <Route path="/investForm" element={<Admin13InvestForm />} />
+            <Route path="/investReceipt" element={<Admin13InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin13SMSSystem/>} /> */}
           </>
         )}
 
