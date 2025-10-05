@@ -35,12 +35,12 @@ mongoose.connect(MONGO_URL)
     console.log("mongoDB is Connect");
 
     // सिर्फ़ उन records में organization set करो जिनमें field नहीं है
-    await FormModel.updateMany(
-      { orgnization: { $exists: false } },
-      { $set: { orgnization: "ORGANIZATION" } }
-    );
+    // await FormModel.updateMany(
+    //   { orgnization: { $exists: false } },
+    //   { $set: { orgnization: "VIPUL ORGANIZATION" } }
+    // );
 
-    console.log("Default organization updated ✅");
+    // console.log("Default organization updated ✅");
 
     app.listen(PORT, () => {
       console.log(`Server is Listen on ${PORT}`);
