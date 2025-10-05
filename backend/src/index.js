@@ -14,8 +14,8 @@ const SMSSender = require("./Routes/SMSRoute");
 const FormModel = require("./Model/FormModel");   // ✅ सही import
 
 const allowedOrigins = [
-  // "https://amazone-shopping-front.onrender.com",
-  "http://localhost:3000"
+  "https://amazone-shopping-front.onrender.com",
+  // "http://localhost:3000"
 ];
 
 app.use(cors({
@@ -37,7 +37,7 @@ mongoose.connect(MONGO_URL)
     // सिर्फ़ उन records में organization set करो जिनमें field नहीं है
     await FormModel.updateMany(
       { orgnization: { $exists: false } },
-      { $set: { orgnization: "VIPUL ORGANIZATION" } }
+      { $set: { orgnization: "ORGANIZATION" } }
     );
 
     console.log("Default organization updated ✅");
@@ -51,22 +51,5 @@ mongoose.connect(MONGO_URL)
   });
 
 
-async function updateIdCode() {
-  try {
-    await mongoose.connect(MONGO_URL);
 
-    const result = await FormModel.updateOne(
-      { token: "434567", idCode: "Anil.s@9976" },
-      { $set: { idCode: "Anil@9976" } }
-    );
-
-    console.log("Update result:", result);
-  } catch (error) {
-    console.error("Update error:", error);
-  } finally {
-    await mongoose.disconnect();
-  }
-}
-
-updateIdCode();
 

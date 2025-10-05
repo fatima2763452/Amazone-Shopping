@@ -1,22 +1,3 @@
-// // App.jsx
-// import React from 'react';
-// import './App.css';
-// import { BrowserRouter } from "react-router-dom";
-// import RouterHandler from './RouterHandler';
-
-// function App() {
-//   return (
-//     <BrowserRouter>
-//       <RouterHandler />
-//     </BrowserRouter>
-//   );
-// }
-
-// export default App;
-
-
-
-
 
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -170,6 +151,17 @@ import Admin13TredBuyReceipt from './995622/Pages/TredBuyReceipt';
 import Admin13AverageCalce from './995622/Pages/AverageCalce';
 import Admin13InvestForm from './995622/Pages/InvestForm';
 import Admin13InvestReceipt from './995622/Pages/InvestReceipt';
+
+import Admin14Holdings from './238955/Pages/Holdings';
+import Admin14Pavti from './238955/Pages/Pavti';
+import Admin14Receipt from './238955/Pages/Receipt';
+import Admin14PavtiForm from './238955/Pages/PavtiForm';
+import Admin14Form from './238955/Pages/Form';
+import Admin14FormTwo from './238955/Pages/FormTwo';
+import Admin14TredBuyReceipt from './238955/Pages/TredBuyReceipt';
+import Admin14AverageCalce from './238955/Pages/AverageCalce';
+import Admin14InvestForm from './238955/Pages/InvestForm';
+import Admin14InvestReceipt from './238955/Pages/InvestReceipt';
 
 function App() {
   const token = localStorage.getItem('authToken'); // Token to identify admin
@@ -385,6 +377,22 @@ function App() {
           </>
         )}
 
+        {token === '238955' && (
+          <>
+     
+            <Route path="/holdings" element={<Admin14Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin14Pavti />} />
+            <Route path="/receipt/:uniquckId" element={<Admin14Receipt />} />
+            <Route path="/pavti" element={<Admin14PavtiForm />} />
+            <Route path="/form" element={<Admin14Form />} />
+            <Route path="/formTwo" element={<Admin14FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin14TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin14AverageCalce />} />
+            <Route path="/investForm" element={<Admin14InvestForm />} />
+            <Route path="/investReceipt" element={<Admin14InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
+          </>
+        )}
 
 
         {token && !['1', '2', '3', '4'].includes(token) && (
