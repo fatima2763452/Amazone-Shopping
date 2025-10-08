@@ -4,8 +4,10 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import NavBar from '../Components/NavBar';
 import { imgAndSign } from "./data.js";
-import signature from '../img/signature.jpg';
-// import logo from '../img/logo.jpg';
+
+import logoImg from '../img/LOGO.jpg';
+import signatureImg from '../img/signature.jpg';
+
 
 function InvestReceipt() {
   const token = localStorage.getItem('authToken');
@@ -13,7 +15,6 @@ function InvestReceipt() {
   const {
     companyName,
     customerName,
-    customerId,
     fatherName,
     dob,
     gender,
@@ -33,33 +34,10 @@ function InvestReceipt() {
     if (btn) btn.style.display = 'none'; // Hide button before screenshot
     const element = receiptRef.current;
     element.style.width = '595px';
-
     const canvas = await html2canvas(element, { scale: 2, useCORS: true });
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF('p', 'pt', 'a4');
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    // Calculate image size in PDF
-    const imgWidth = pageWidth;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    // --- SCALE TO FIT ONE PAGE ---
-    let finalW = imgWidth;
-    let finalH = imgHeight;
-    let x = 0;
-    let y = 0;
-
-    // If image height > page height, scale down to fit
-    if (imgHeight > pageHeight) {
-      const scale = pageHeight / imgHeight;
-      finalW = imgWidth * scale;
-      finalH = imgHeight * scale;
-      x = (pageWidth - finalW) / 2;
-      y = 0;
-    }
-
-    pdf.addImage(imgData, 'PNG', x, y, finalW, finalH);
+    pdf.addImage(imgData, 'PNG', 0, 0, 595, (canvas.height * 595) / canvas.width);
     pdf.save('Confirmation Form.pdf');
     element.style.width = '';
     if (btn) btn.style.display = 'block'; // Show button again
@@ -93,10 +71,9 @@ function InvestReceipt() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '90%', margin: '0 auto' }}>
             <div style={{ width: '65%' }}>
               <div style={{ fontWeight: 'bold', marginBottom: 10 , fontSize : '16px'}}>Customer Personal Information</div>
-              <div style={{ marginBottom: 8 }}><b>First Name </b>  : <span style={{ marginLeft: "10px", }}>{customerName}</span></div>
-              {/* <div style={{ marginBottom: 8 }}><b>Last Name</b>   : <span style={{marginLeft: "10px", }}>{customerName?.split(' ')[1] || ''}</span></div> */}
+              <div style={{ marginBottom: 8 }}><b>First Name </b>  : <span style={{ marginLeft: "10px", }}>{customerName?.split(' ')[0] || ''}</span></div>
+              <div style={{ marginBottom: 8 }}><b>Last Name</b>   : <span style={{marginLeft: "10px", }}>{customerName?.split(' ')[1] || ''}</span></div>
               <div style={{ marginBottom: 8 }}><b>Father's Name </b>  : <span style={{ marginLeft: "10px", }}>{fatherName}</span></div>
-              <div style={{ marginBottom: 8 }}><b>Custome ID</b>   : <span style={{marginLeft: "10px",  }}>{customerId}</span></div>
               <div style={{ marginBottom: 8 }}><b>Date of Birth</b>   : <span style={{ marginLeft: "10px", }}>{dob ? new Date(dob).toLocaleDateString('en-GB') : ''}</span></div>
               <div style={{ marginBottom: 8 }}><b>Gender</b>   : <span style={{ marginLeft: "10px", }}>{gender}</span></div>
               <div style={{ marginBottom: 8 }}><b>Mobile Number</b>   : <span style={{marginLeft: "10px",  }}>{mobileNumber}</span></div>
@@ -147,7 +124,7 @@ function InvestReceipt() {
                   }}
                 >
                   <img
-                    src={signature}
+                    src={`${process.env.PUBLIC_URL}/media/default-photo.jpg`}
                     alt="Default"
                     style={{
                       width: '80px',
@@ -169,7 +146,7 @@ function InvestReceipt() {
           <div style={{ width: '90%', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 50 }}>
             <span style={{ fontStyle: 'italic', fontSize: '1em' }}>Signature of Authorized Officer</span>
             <img
-              src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`}
+              src={signatureImg}
               alt="Signature"
               style={{ maxWidth: 120, height: 'auto' }}
             />
