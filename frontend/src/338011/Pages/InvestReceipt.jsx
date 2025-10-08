@@ -5,7 +5,7 @@ import jsPDF from 'jspdf';
 import NavBar from '../Components/NavBar';
 import { imgAndSign } from "./data.js";
 import signature from '../img/signature.jpg';
-import logo from '../img/logo.jpg';
+// import logo from '../img/logo.jpg';
 
 function InvestReceipt() {
   const token = localStorage.getItem('authToken');
