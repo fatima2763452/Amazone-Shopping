@@ -13,6 +13,7 @@ function Form() {
     stockName: "", 
     idCode: "",
     quantity: "", 
+    lotSize: "",
     buyPrice: "",
     sellPrice:"", 
     tradeDate:"",
@@ -28,7 +29,7 @@ function Form() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { clientName, stockName, idCode, quantity, buyPrice, sellPrice, tradeDate, brokerage, mode, lotSize } = formData;
+    const { clientName, stockName, idCode, quantity,lotSize, buyPrice, sellPrice, tradeDate, brokerage, mode } = formData;
     // Get token from localStorage
     const token = localStorage.getItem('authToken');
 
@@ -122,6 +123,7 @@ function Form() {
           />
         </div>
 
+        
         <div className="col-md-12 mb-3">
           <label htmlFor="lotSize" className="form-label text-muted">Lot Size</label>
           <input

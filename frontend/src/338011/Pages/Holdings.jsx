@@ -132,8 +132,8 @@ function Holdings() {
           <div className="text-center my-5">
             <h4 className="text-muted">No holdings found</h4>
             <p className="text-muted">Add some trades to see them here</p>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               onClick={() => navigate('/form')}
               sx={{ mt: 2 }}
             >
@@ -171,7 +171,7 @@ function Holdings() {
                         <td>{stock.stockName}({stock.mode})</td>
                         <td className="text-center">
                           {stock.quantity}
-                          {stock.lotSize ? <span> ({stock.lotSize} Lot)</span> : null}
+                          {stock.lotSize ? <span> ({stock.lotSize})</span> : null}
                         </td>
                         <td className="text-center">{stock.buyPrice.toFixed(2)}</td>
                         <td className="text-center">{stock.sellPrice.toFixed(2)}</td>
@@ -199,7 +199,7 @@ function Holdings() {
                 </tbody>
               </table>
             </div>
-            
+
             {/* Totals Summary */}
             <div className="row holding-invest-info mt-4">
               <div className="col text-start">
