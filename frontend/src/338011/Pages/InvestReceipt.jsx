@@ -3,9 +3,9 @@ import { useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import NavBar from '../Components/NavBar';
-import { imgAndSign } from "./data.js";
+// import { imgAndSign } from "./data.js";
 
-import logoImg from '../img/LOGO.jpg';
+// import logoImg from '../img/LOGO.jpg';
 import signatureImg from '../img/signature.jpg';
 
 
