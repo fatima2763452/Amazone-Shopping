@@ -122,7 +122,7 @@ function TredBuyReceipt() {
           {/* Details */}
           <div style={{ padding: 20, fontSize: 14, lineHeight: 1.8 }}>
             <p><strong>Mode:</strong> {mode ? mode.toUpperCase() : ''}</p>
-            <p><strong>Quantity:</strong> {quantity}{lotSize} {lotSize ? <span>({lotSize} Lot)</span> : null}</p>
+            <p><strong>Quantity:</strong> {quantity}{lotSize ? <span>({lotSize} Lot)</span> : null}</p>
             <p><strong>Total Buying:</strong> ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
             <p><strong>Tax:</strong> ₹0.00</p>
             {/* <p><strong>Total Buying:</strong> ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p> */}
