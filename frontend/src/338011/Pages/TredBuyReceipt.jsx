@@ -7,104 +7,114 @@ import { useLocation } from 'react-router-dom';
 
 function TredBuyReceipt() {
   const location = useLocation();
-  const { client, stockName, idCode, quantity,lotSize, buyPrice, tradeDate, mode } = location.state || {};
+  const { client, stockName, idCode, quantity, lotSize, buyPrice, tradeDate, mode } = location.state || {};
 
- const handleDownloadPDF = async () => {
-    const input = document.getElementById('receipt-pdf');
-    if (!input) return;
+  const handleDownloadPDF = async () => {
+  const input = document.getElementById('receipt-pdf');
+  if (!input) return;
 
-    const clone = input.cloneNode(true);
+  // Clone the node
+  const clone = input.cloneNode(true);
 
-    clone.style.position = 'absolute';
-    clone.style.left = '-9999px';
-    // Important: Set the clone's background to match for canvas rendering accuracy
-    clone.style.backgroundColor = '#0f172a'; 
-    document.body.appendChild(clone);
+  // Remove buttons or elements that shouldn't appear in PDF
+  clone.querySelectorAll('button, .no-print').forEach(el => el.remove());
 
-    try {
-      const canvas = await html2canvas(clone, {
-        scale: 3,
-        useCORS: true,
-        scrollY: -window.scrollY,
-        backgroundColor: '#0f172a', // dark PDF background
-      });
-      const imgData = canvas.toDataURL('image/png');
+  // Set clone styles to match actual colors
+  clone.style.position = 'absolute';
+  clone.style.left = '-9999px';
+  clone.style.background = 'white'; // same as your main card
+  clone.style.color = 'black';
+  clone.style.width = '400px';
+  clone.style.borderRadius = '0px';
+  clone.style.overflow = 'hidden';
+  clone.style.margin = '0 auto';
 
-      // --- START: Changes to remove extra white space ---
-      const pxToMm = 0.264583;
-      const imgWmm = canvas.width * pxToMm;
-      const imgHmm = canvas.height * pxToMm;
+  document.body.appendChild(clone);
 
-      // 1. Initialize jsPDF with custom dimensions (imgWmm, imgHmm) 
-      //    instead of 'a4'. Orientation 'p' (portrait) or 'l' (landscape)
-      //    is not strictly necessary but 'portrait' is common.
-      const pdf = new jsPDF('p', 'mm', [imgWmm, imgHmm]);
+  try {
+    const canvas = await html2canvas(clone, {
+      scale: 3,
+      useCORS: true,
+      scrollY: -window.scrollY,
+      backgroundColor: null, // preserve transparency/colors
+    });
 
-      // 2. Add the image to the PDF, filling the entire custom page
-      //    Start position (x, y) is (0, 0)
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWmm, imgHmm); 
-      // --- END: Changes to remove extra white space ---
+    const imgData = canvas.toDataURL('image/png');
+    const pxToMm = 0.264583;
+    const imgWmm = canvas.width * pxToMm;
+    const imgHmm = canvas.height * pxToMm;
 
-      pdf.save('Buy_Receipt.pdf');
-    } catch (err) {
-      console.error(err);
-    } finally {
-      document.body.removeChild(clone);
-    }
-  };
+    const pdf = new jsPDF('p', 'mm', [imgWmm, imgHmm]);
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWmm, imgHmm);
+    pdf.save('Buy_Receipt.pdf');
+  } catch (err) {
+    console.error(err);
+  } finally {
+    // Remove clone only if it is still in the body
+    if (document.body.contains(clone)) {
+      document.body.removeChild(clone);
+    }
+  }
+};
+
+
   const totalAmount = buyPrice * quantity;
 
   return (
     <>
       <NavBar />
-      <div style={{ minHeight: '100vh', padding: '32px 0',  }}>
+      <div style={{ minHeight: '100vh', padding: '32px 0' }}>
         <div
           id="receipt-pdf"
+          className="receipt"
           style={{
-            background: '#0f172a',
+            background: 'white',
             width: 400,
-            // borderRadius: 16,
+            borderRadius: '0px',
+            boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
             overflow: 'hidden',
-            margin: '40px auto',
-            color: '#fff',
-            boxShadow: '0 6px 15px rgba(0,0,0,0.5)',
+            margin: '0 auto',
           }}
         >
           {/* Header */}
           <div
             className="receipt-header"
             style={{
-              background: '#1e293b',
-              padding: 20,
+              background: '#1976d2',
+              color: '#fff',
+              padding: '10px',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              
             }}
           >
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 18 }}>KRISHNA ENT. PVT. LTD</div>
-              <div style={{ fontSize: 12, fontWeight: 400 }}>Trade Buy Receipt</div>
-            </div>
-            <div style={{ fontSize: 12, textAlign: 'right', lineHeight: 1.4 }}>
-              User: {client}<br />
-              ID: {idCode}
+            <h2>
+              <span style={{ color: 'black' , fontSize : '20px'}}>KRISHNA ENT. PVT. LTD</span>
+              <br />
+              <span style={{ fontSize: '12px', fontWeight: 400, color: 'black' }}>
+                Trade Buy Receipt
+              </span>
+            </h2>
+            <div className="user-info" style={{ color: 'black' }}>
+              User: {client}
             </div>
           </div>
 
           {/* Stock Info */}
           <div style={{ padding: 20 }}>
             <div style={{ fontWeight: 700, fontSize: 20, marginBottom: 4 }}>{stockName}</div>
-            <span style={{ fontSize: 14, color: '#94a3b8', fontWeight: 600 }}>Entry (BUY)</span>
+            <span style={{ fontSize: 14, color: '#94a3b8', fontWeight: 600 }}>Entry ({mode ? mode.toUpperCase() : ''})</span>
           </div>
 
           {/* Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 12,
-            padding: 20,
-          }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 12,
+              padding: 20,
+            }}
+          >
             <div style={gridItemStyle}>
               <p style={gridLabelStyle}>Entry Date</p>
               <h4 style={gridValueStyle}>{tradeDate ? new Date(tradeDate).toLocaleDateString('en-GB') : ''}</h4>
@@ -125,31 +135,33 @@ function TredBuyReceipt() {
             <p><strong>Quantity:</strong> {quantity}{lotSize ? <span>({lotSize} Lot)</span> : null}</p>
             <p><strong>Total Buying:</strong> ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
             <p><strong>Tax:</strong> ₹0.00</p>
-            {/* <p><strong>Total Buying:</strong> ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p> */}
           </div>
 
-          <div
+          <p
             style={{
-              background: '#2563eb',
-              borderRadius: 12,
-              padding: '10px 15px',
+              color: '#2563eb',
+              // borderRadius: 12,
+              // padding: '10px 15px',
               textAlign: 'center',
-              margin: '16px 20px',
-              color: '#fff',
+              // margin: '16px 20px',
+              // color: '#fff',
+              fontWeight: 600,
             }}
           >
             Including 0.01% Brokerage Charge
-          </div>
+          </p>
 
           {/* Footer */}
-          <div style={{
-            background: '#1e293b',
-            padding: 12,
-            fontSize: 12,
-            textAlign: 'center',
-            color: '#94a3b8',
-          }}>
-            © KRISHNA ENT. PVT. LTD
+          <div
+            style={{
+              background: '#1976d2',
+              padding: 12,
+              fontSize: 12,
+              textAlign: 'center',
+              color: '#94a3b8',
+            }}
+          >
+            <span style={{ color: 'black' }}>© KRISHNA ENT. PVT. LTD</span>
           </div>
         </div>
 
@@ -160,7 +172,7 @@ function TredBuyReceipt() {
             variant="contained"
             sx={{
               backgroundColor: '#2563eb',
-              color: '#fff',
+              color: 'white',
               '&:hover': { backgroundColor: '#1d4ed8' },
             }}
           >
@@ -173,9 +185,9 @@ function TredBuyReceipt() {
 }
 
 const gridItemStyle = {
-  background: '#1e293b',
-
-  padding: 10,
+  background: '#f9fafb',
+  borderRadius: '12px',
+  padding: '10px',
   textAlign: 'center',
 };
 
@@ -189,7 +201,7 @@ const gridValueStyle = {
   margin: 0,
   fontSize: 15,
   fontWeight: 700,
-  color: '#fff',
+  color: 'black',
 };
 
 export default TredBuyReceipt;

@@ -174,6 +174,18 @@ import Admin15AverageCalce from './338011/Pages/AverageCalce';
 import Admin15InvestForm from './338011/Pages/InvestForm';
 import Admin15InvestReceipt from './338011/Pages/InvestReceipt';
 
+import Admin16Holdings from './559011/Pages/Holdings';
+import Admin16Pavti from './559011/Pages/Pavti';
+import Admin16Receipt from './559011/Pages/Receipt';
+import Admin16PavtiForm from './559011/Pages/PavtiForm';
+import Admin16Form from './559011/Pages/Form';
+import Admin16FormTwo from './559011/Pages/FormTwo';
+import Admin16TredBuyReceipt from './559011/Pages/TredBuyReceipt';
+import Admin16AverageCalce from './559011/Pages/AverageCalce';
+import Admin16InvestForm from './559011/Pages/InvestForm';
+import Admin16InvestReceipt from './559011/Pages/InvestReceipt';
+
+
 function App() {
   const token = localStorage.getItem('authToken'); // Token to identify admin
 
@@ -418,6 +430,25 @@ function App() {
             <Route path="/averageCalce" element={<Admin15AverageCalce />} />
             <Route path="/investForm" element={<Admin15InvestForm />} />
             <Route path="/investReceipt" element={<Admin15InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
+          </>
+        )}
+
+
+        
+        {token === '559011' && (
+          <>
+     
+            <Route path="/holdings" element={<Admin16Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin16Pavti />} />
+            <Route path="/receipt/:uniquckId" element={<Admin16Receipt />} />
+            <Route path="/pavti" element={<Admin16PavtiForm />} />
+            <Route path="/form" element={<Admin16Form />} />
+            <Route path="/formTwo" element={<Admin16FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin16TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin16AverageCalce />} />
+            <Route path="/investForm" element={<Admin16InvestForm />} />
+            <Route path="/investReceipt" element={<Admin16InvestReceipt />} />
             {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
           </>
         )}
