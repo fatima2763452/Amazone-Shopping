@@ -344,10 +344,7 @@ if (headerRow) {
                     >
                       ₹
                       {
-                        (totalProfit >= 0
-                          ? totalProfit + userInfo.margin
-                          : totalProfit + userInfo.margin
-                        ).toLocaleString('en-IN', { minimumFractionDigits: 2 })
+                        totalProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })
                       }
                     </p>
                   </div>

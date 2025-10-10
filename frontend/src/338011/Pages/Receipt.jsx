@@ -48,8 +48,8 @@ const handleDownloadPDF = async () => {
   // Force header and other key colors to match the receipt
   const header = clone.querySelector('.header');
   if (header) {
-    header.style.background = '#1976d2'; // header dark color
-    header.style.color = '#fff';
+    header.style.background = '#f6f7f7ff'; // header dark color
+    header.style.color = 'rgba(120, 183, 250, 0.76)';
     header.style.padding = '20px';
     header.style.display = 'flex';
     header.style.justifyContent = 'space-between';
@@ -133,7 +133,7 @@ const handleDownloadPDF = async () => {
             className="header"
             style={{
               borderRadius: 0,
-              background: '#1976d2',
+              background: '#f6f7f7ff',
               color: '#fff',
               padding: '20px',
               display: 'flex',
@@ -142,7 +142,7 @@ const handleDownloadPDF = async () => {
             }}
           >
             <h2>
-             <span style={{ color:'black'}}>KRISHNA ENT. PVT. LTD</span> 
+             <span style={{ color:'rgba(120, 183, 250, 0.76)'}}>KRISHNA ENT. PVT. LTD</span> 
               <br />
               <span style={{ fontSize: '12px', fontWeight: 400 , color:'black'}}>Trade Exit Receipt</span>
             </h2>
@@ -241,7 +241,7 @@ const handleDownloadPDF = async () => {
             style={{
               // background: '#1e293b',
                 //  background: '#576270ff',
-                   background: '#1976d2',
+                  background: '#f6f7f7ff',
               padding: '12px',
               fontSize: '12px',
               textAlign: 'center',
@@ -249,7 +249,7 @@ const handleDownloadPDF = async () => {
             }}
           >
              {/* KRISHNA ENT. PVT. LTD */}
-             <span style={{ color:'black'}}>© KRISHNA ENT. PVT. LTD</span> 
+             <span style={{ color:'rgba(120, 183, 250, 0.76)'}}>© KRISHNA ENT. PVT. LTD</span> 
 
           </div>
         </div>

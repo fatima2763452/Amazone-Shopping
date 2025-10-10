@@ -89,7 +89,7 @@ function TredBuyReceipt() {
             }}
           >
             <h2>
-              <span style={{ color: 'black' , fontSize : '20px'}}>KRISHNA ENT. PVT. LTD</span>
+              <span style={{ color:'rgba(120, 183, 250, 0.76)' , fontSize : '20px'}}>KRISHNA ENT. PVT. LTD</span>
               <br />
               <span style={{ fontSize: '12px', fontWeight: 400, color: 'black' }}>
                 Trade Buy Receipt
@@ -161,7 +161,7 @@ function TredBuyReceipt() {
               color: '#94a3b8',
             }}
           >
-            <span style={{ color: 'black' }}>© KRISHNA ENT. PVT. LTD</span>
+            <span style={{ color:'rgba(120, 183, 250, 0.76)'}}>© KRISHNA ENT. PVT. LTD</span>
           </div>
         </div>
 
