@@ -22,7 +22,7 @@ function Receipt() {
   // Intraday brokerage at 0.01% of turnover (buy+sell)*quantity
   const calculateBrokerage = ({ buyPrice, sellPrice, quantity }) => {
     const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover * 0.0001).toFixed(2));
+    return Number((turnover * 0.00005).toFixed(2));
   };
 
 const handleDownloadPDF = async () => {
