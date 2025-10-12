@@ -91,10 +91,7 @@ function Pavti() {
     clone.style.left = '0';
     clone.style.zIndex = '-1';
 
-    // --- HEADER FLEX FIX FOR PDF ---
 
-// --- HEADER FLEX FIX FOR PDF ---
-// --- HEADER FLEX FIX FOR PDF ---
 const headerRow = clone.querySelector('.d-flex.flex-column.align-items-center.mb-2');
 if (headerRow) {
   headerRow.style.display = 'flex';

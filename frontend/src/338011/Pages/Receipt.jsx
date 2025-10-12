@@ -34,7 +34,7 @@ const handleDownloadPDF = async () => {
   clone.querySelectorAll('.no-print').forEach((el) => el.remove());
   clone.querySelectorAll('button').forEach((btn) => btn.remove());
 
-  // Force the exact styles of the actual receipt
+  
   clone.style.background = 'white'; // main receipt background
   clone.style.color = 'black';      // default text color
   clone.style.width = '400px';
