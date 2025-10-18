@@ -17,6 +17,9 @@ function Form() {
     buyPrice: "",
     sellPrice:"", 
     tradeDate:"",
+    orgnizationName: "",
+    brokerage: "",
+    mode: ""
   });
 
   const handleChanges = (event) => {
@@ -29,7 +32,7 @@ function Form() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { clientName, stockName, idCode, quantity,lotSize, buyPrice, sellPrice, tradeDate, brokerage, mode } = formData;
+    const { clientName, stockName, idCode, quantity,lotSize, buyPrice, sellPrice, tradeDate, brokerage, mode , orgnizationName} = formData;
     // Get token from localStorage
     const token = localStorage.getItem('authToken');
 
@@ -50,7 +53,7 @@ function Form() {
 
       if (res.data.success) {
         const { uniquckId } = res.data;
-        navigate(`/receipt/${uniquckId}`);
+        navigate(`/receipt/${uniquckId}`, { state: { orgnizationName } });
       }
 
     } catch (err) {
@@ -134,6 +137,19 @@ function Form() {
             onChange={handleChanges}
             className="form-control text-muted"
             placeholder="Enter your stock lot size"
+          />
+        </div>
+
+         <div className="col-md-12 mb-3">
+          <label htmlFor="lotSize" className="form-label text-muted">Orgnization Name</label>
+          <input
+            type="text"
+            id="orgnizationName"
+            name="orgnizationName"
+            value={formData.orgnizationName}
+            onChange={handleChanges}
+            className="form-control text-muted"
+            placeholder="Enter your orgnization name"
           />
         </div>
 

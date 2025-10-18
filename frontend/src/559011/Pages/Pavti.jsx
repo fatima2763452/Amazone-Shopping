@@ -4,9 +4,11 @@ import jsPDF from 'jspdf';
 import { data, useNavigate, useParams } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import axios from "axios"
-import { imgAndSign } from "./data.js";
+// import { imgAndSign } from "./data.js";
 import signature from '../img/signature.jpg';
 import logo from '../img/logo.jpg';
+
+
 
 
 function Pavti() {
@@ -74,7 +76,7 @@ function Pavti() {
   const calculateBrokerage = ({ buyPrice, sellPrice, quantity }) => {
     // 0.01% of turnover
     const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover *  0.00005).toFixed(2));
+    return Number((turnover *  0.0001).toFixed(2));
   };
 
 
@@ -327,7 +329,7 @@ if (headerRow) {
                 <div className="mb-3 row">
                   <p className="fw-bold col-6"><b>Term & Condition</b> <br></br> Note Detailed bill that records all transactions Done by broker on behalf of His client during a trading day</p>
                   <img
-                    src = {signature}
+                    src={signature}
                     alt="signature"
                     className="img-fluid mb-2 col-6"
                     style={{ maxWidth: '15em', objectFit: 'contain', display: 'block', margin: '0 auto' }}

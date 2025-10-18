@@ -1,195 +1,191 @@
 import React from 'react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import Button from '@mui/material/Button';
 import NavBar from '../Components/NavBar';
 import { useLocation } from 'react-router-dom';
 
 function TredBuyReceipt() {
   const location = useLocation();
-  const { client, stockName, idCode, quantity,lotSize, buyPrice, tradeDate, mode } = location.state || {};
+  const { client, stockName, idCode, quantity, lotSize, buyPrice, tradeDate, mode, orgnizationName } =
+    location.state || {};
 
- const handleDownloadPDF = async () => {
-    const input = document.getElementById('receipt-pdf');
-    if (!input) return;
+  const calculateBrokerage = (buyPrice, quantity) => {
+    const turnover = buyPrice * quantity;
+    return Number((turnover * 0.00005).toFixed(2));
+  };
 
-    const clone = input.cloneNode(true);
+  const brokerage = calculateBrokerage(buyPrice, quantity);
+  const totalBuying = buyPrice * quantity;
+  const totalAmount = totalBuying + brokerage;
 
-    clone.style.position = 'absolute';
-    clone.style.left = '-9999px';
-    // Important: Set the clone's background to match for canvas rendering accuracy
-    clone.style.backgroundColor = '#0f172a'; 
-    document.body.appendChild(clone);
+  const handleDownloadPDF = async () => {
+    const input = document.getElementById('receipt-pdf');
+    if (!input) return;
 
-    try {
-      const canvas = await html2canvas(clone, {
-        scale: 3,
-        useCORS: true,
-        scrollY: -window.scrollY,
-        backgroundColor: '#0f172a', // dark PDF background
-      });
-      const imgData = canvas.toDataURL('image/png');
+    const clone = input.cloneNode(true);
+    clone.querySelectorAll('.no-print, button').forEach((el) => el.remove());
+    clone.style.background = '#0f172a';
+    clone.style.width = '380px';
+    clone.style.overflow = 'hidden';
+    clone.style.margin = '0 auto';
+    document.body.appendChild(clone);
 
-      // --- START: Changes to remove extra white space ---
-      const pxToMm = 0.264583;
-      const imgWmm = canvas.width * pxToMm;
-      const imgHmm = canvas.height * pxToMm;
-
-      // 1. Initialize jsPDF with custom dimensions (imgWmm, imgHmm) 
-      //    instead of 'a4'. Orientation 'p' (portrait) or 'l' (landscape)
-      //    is not strictly necessary but 'portrait' is common.
-      const pdf = new jsPDF('p', 'mm', [imgWmm, imgHmm]);
-
-      // 2. Add the image to the PDF, filling the entire custom page
-      //    Start position (x, y) is (0, 0)
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWmm, imgHmm); 
-      // --- END: Changes to remove extra white space ---
-
-      pdf.save('Buy_Receipt.pdf');
-    } catch (err) {
-      console.error(err);
-    } finally {
-      document.body.removeChild(clone);
-    }
-  };
-  const totalAmount = buyPrice * quantity;
+    try {
+      const canvas = await html2canvas(clone, { scale: 3, useCORS: true });
+      const imgData = canvas.toDataURL('image/png');
+      const pxToMm = 0.264583;
+      const imgWmm = canvas.width * pxToMm;
+      const imgHmm = canvas.height * pxToMm;
+      const pdf = new jsPDF('p', 'mm', [imgWmm, imgHmm]);
+      pdf.addImage(imgData, 'PNG', 0, 0, imgWmm, imgHmm);
+      pdf.save('Buy_Receipt.pdf');
+    } catch (err) {
+      console.error(err);
+    } finally {
+      document.body.removeChild(clone);
+    }
+  };
 
   return (
     <>
       <NavBar />
-      <div style={{ minHeight: '100vh', padding: '32px 0',  }}>
+      <div style={{ background: 'white', minHeight: '100vh', padding: '40px 0' }}>
         <div
           id="receipt-pdf"
           style={{
             background: '#0f172a',
-            width: 400,
-            // borderRadius: 16,
-            overflow: 'hidden',
-            margin: '40px auto',
+            width: 380,
+            boxShadow: '0 8px 20px rgba(0,0,0,0.4)',
             color: '#fff',
-            boxShadow: '0 6px 15px rgba(0,0,0,0.5)',
+            margin: '0 auto',
+            paddingBottom: 20,
+            fontFamily: 'Inter, sans-serif',
           }}
         >
           {/* Header */}
-          <div
-            className="receipt-header"
-            style={{
-              background: '#1e293b',
-              padding: 20,
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              
-            }}
-          >
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 18 }}>KRISHNA ENT. PVT. LTD</div>
-              <div style={{ fontSize: 12, fontWeight: 400 }}>Trade Buy Receipt</div>
-            </div>
-            <div style={{ fontSize: 12, textAlign: 'right', lineHeight: 1.4 }}>
-              User: {client}<br />
-              ID: {idCode}
-            </div>
+          <div style={{ padding: '18px 20px', borderBottom: '1px solid #1e293b' }}>
+            <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>
+              {orgnizationName || 'KRISHNA ENT. PVT. LTD'}
+            </h3>
+            <p style={{ fontSize: 12, color: '#94a3b8' }}>Trade Buy Receipt</p>
           </div>
 
           {/* Stock Info */}
-          <div style={{ padding: 20 }}>
-            <div style={{ fontWeight: 700, fontSize: 20, marginBottom: 4 }}>{stockName}</div>
-            <span style={{ fontSize: 14, color: '#94a3b8', fontWeight: 600 }}>Entry (BUY)</span>
+          <div style={{ padding: '16px 20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <h2 style={{ fontSize: 22, margin: 0, fontWeight: 700 }}>{stockName}</h2>
+              <p style={{ fontSize: 14 }}>User: {client}</p>
+            </div>
+            <span style={{ color: '#94a3b8', fontSize: 13 }}>
+              {tradeDate ? new Date(tradeDate).toLocaleDateString('en-GB') : ''}
+            </span>
           </div>
 
-          {/* Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 12,
-            padding: 20,
-          }}>
-            <div style={gridItemStyle}>
-              <p style={gridLabelStyle}>Entry Date</p>
-              <h4 style={gridValueStyle}>{tradeDate ? new Date(tradeDate).toLocaleDateString('en-GB') : ''}</h4>
-            </div>
-            <div style={gridItemStyle}>
-              <p style={gridLabelStyle}>Customer ID</p>
-              <h4 style={gridValueStyle}>{idCode}</h4>
-            </div>
-            <div style={gridItemStyle}>
-              <p style={gridLabelStyle}>Buy Price</p>
-              <h4 style={gridValueStyle}>₹{Number(buyPrice).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h4>
-            </div>
-          </div>
-
-          {/* Details */}
-          <div style={{ padding: 20, fontSize: 14, lineHeight: 1.8 }}>
-            <p><strong>Mode:</strong> {mode ? mode.toUpperCase() : ''}</p>
-            <p><strong>Quantity:</strong> {quantity}{lotSize ? <span>({lotSize} Lot)</span> : null}</p>
-            <p><strong>Total Buying:</strong> ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
-            <p><strong>Tax:</strong> ₹0.00</p>
-            {/* <p><strong>Total Buying:</strong> ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p> */}
-          </div>
-
+          {/* Order Details */}
           <div
             style={{
-              background: '#2563eb',
+              background: '#1e293b',
               borderRadius: 12,
-              padding: '10px 15px',
+              margin: '0 16px',
+              padding: '16px 18px',
+            }}
+          >
+            <div style={rowStyle}>
+              <span style={labelStyle}>Customer ID:</span>
+              <span style={valueStyle}>{idCode || '—'}</span>
+            </div>
+
+            <div style={rowStyle}>
+              <span style={labelStyle}>Product Type:</span>
+              <span style={valueStyle}>{mode ? mode.toUpperCase() : '—'}</span>
+            </div>
+
+            <div style={rowStyle}>
+              <span style={labelStyle}>Quantity:</span>
+              <span style={valueStyle}>
+                {quantity} {lotSize ? <span>({lotSize} Lot)</span> : null}
+              </span>
+            </div>
+
+            <div style={rowStyle}>
+              <span style={labelStyle}>Buy Price:</span>
+              <span style={valueStyle}>
+                ₹{buyPrice.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+              </span>
+            </div>
+
+            <div style={rowStyle}>
+              <span style={labelStyle}>Total Buying:</span>
+              <span style={valueStyle}>
+                ₹{totalBuying.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+              </span>
+            </div>
+
+            <div style={rowStyle}>
+              <span style={labelStyle}>Brokerage:</span>
+              <span style={valueStyle}>
+                ₹{brokerage.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+              </span>
+            </div>
+          </div>
+
+          {/* Summary Section */}
+          <div
+            style={{
+              margin: '20px 16px 10px',
+              background: '#4ae8b3ff',
+              borderRadius: 12,
               textAlign: 'center',
-              margin: '16px 20px',
-              color: '#fff',
+              padding: '10px 0',
+              color: 'white',
+              fontWeight: 700,
+              fontSize: 20,
             }}
           >
-            Including 0.01% Brokerage Charge
+            Total Amount ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
           </div>
 
-          {/* Footer */}
-          <div style={{
-            background: '#1e293b',
-            padding: 12,
-            fontSize: 12,
-            textAlign: 'center',
-            color: '#94a3b8',
-          }}>
-            © KRISHNA ENT. PVT. LTD
+          {/* Buttons */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 10 }}>
+            <button style={btnStyle} className="no-print" onClick={() => window.history.back()}>
+              View Order
+            </button>
+            <button style={btnStyle} className="no-print" onClick={handleDownloadPDF}>
+              Download PDF
+            </button>
           </div>
-        </div>
-
-        {/* Download Button */}
-        <div style={{ textAlign: 'center', marginTop: 24 }}>
-          <Button
-            onClick={handleDownloadPDF}
-            variant="contained"
-            sx={{
-              backgroundColor: '#2563eb',
-              color: '#fff',
-              '&:hover': { backgroundColor: '#1d4ed8' },
-            }}
-          >
-            Download Receipt
-          </Button>
         </div>
       </div>
     </>
   );
 }
 
-const gridItemStyle = {
-  background: '#1e293b',
-
-  padding: 10,
-  textAlign: 'center',
+const rowStyle = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  marginBottom: 8,
 };
 
-const gridLabelStyle = {
-  margin: '4px 0',
-  fontSize: 13,
-  color: '#94a3b8',
+const labelStyle = {
+  fontSize: 14,
+  color: '#cbd5e1',
 };
 
-const gridValueStyle = {
-  margin: 0,
-  fontSize: 15,
-  fontWeight: 700,
+const valueStyle = {
+  fontSize: 14,
+  fontWeight: 600,
   color: '#fff',
+};
+
+const btnStyle = {
+  background: '#1e293b',
+  border: 'none',
+  color: '#fff',
+  padding: '10px 18px',
+  borderRadius: 10,
+  cursor: 'pointer',
+  fontSize: 14,
+  fontWeight: 600,
 };
 
 export default TredBuyReceipt;
