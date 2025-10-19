@@ -108,16 +108,16 @@ if (headerRow) {
 
   // Left: Name logo
   const nameLogoImg = headerRow.querySelector('img[alt="DEVAKI"]');
-  if (nameLogoImg) {
-    nameLogoImg.style.position = 'static';
-    nameLogoImg.style.width = '160px';
-    nameLogoImg.style.height = 'auto';
-    nameLogoImg.style.marginLeft = '10px';
-    nameLogoImg.style.marginRight = 'auto'; // push org name center
-    nameLogoImg.style.marginBottom = '0';
-    nameLogoImg.style.maxWidth = '40vw';
-    nameLogoImg.style.minWidth = '80px';
-  }
+  // if (nameLogoImg) {
+  //   nameLogoImg.style.position = 'static';
+  //   nameLogoImg.style.width = '160px';
+  //   nameLogoImg.style.height = 'auto';
+  //   nameLogoImg.style.marginLeft = '10px';
+  //   nameLogoImg.style.marginRight = 'auto'; // push org name center
+  //   nameLogoImg.style.marginBottom = '0';
+  //   nameLogoImg.style.maxWidth = '40vw';
+  //   nameLogoImg.style.minWidth = '80px';
+  // }
 
   // Center: Org name
   const orgDiv = headerRow.querySelector('div');
@@ -130,6 +130,8 @@ if (headerRow) {
     orgDiv.style.wordBreak = 'break-word';
     orgDiv.style.maxWidth = '220px';
     orgDiv.style.margin = '0 auto';
+    orgDiv.style.marginTop = '29px';
+
     orgDiv.style.display = 'block';
     orgDiv.style.position = 'relative'; 
     orgDiv.style.bottom = '50px'; // space from right edge

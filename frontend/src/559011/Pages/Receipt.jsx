@@ -97,7 +97,7 @@ function Receipt() {
         >
           {/* Header */}
           <div style={{ padding: '18px 20px', borderBottom: '1px solid #1e293b' }}>
-            <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>{orgnizationName}</h3>
+            <h3 style={{ margin: 0, fontSize: 21, fontWeight: 700 }}>{orgnizationName}</h3>
     
           </div>
 

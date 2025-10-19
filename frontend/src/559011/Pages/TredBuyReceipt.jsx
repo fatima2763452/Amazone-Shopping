@@ -65,7 +65,7 @@ function TredBuyReceipt() {
           {/* Header */}
           <div style={{ padding: '18px 20px', borderBottom: '1px solid #1e293b' }}>
             <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>
-              {orgnizationName || 'KRISHNA ENT. PVT. LTD'}
+              {orgnizationName}
             </h3>
             <p style={{ fontSize: 12, color: '#94a3b8' }}>Trade Buy Receipt</p>
           </div>
@@ -130,19 +130,8 @@ function TredBuyReceipt() {
           </div>
 
           {/* Summary Section */}
-          <div
-            style={{
-              margin: '20px 16px 10px',
-              background: '#4ae8b3ff',
-              borderRadius: 12,
-              textAlign: 'center',
-              padding: '10px 0',
-              color: 'white',
-              fontWeight: 700,
-              fontSize: 20,
-            }}
-          >
-            Total Amount ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+           <div className="text-center mt-4 fw-semibold text-primary">
+                Including 0.01% Brokerage Charge
           </div>
 
           {/* Buttons */}

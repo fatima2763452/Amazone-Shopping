@@ -15,6 +15,8 @@ function FormTwo() {
     buyPrice: "",
     mode:"",
     tradeDate : "",
+    orgnizationName: "",
+    lotSize: "",
   });
 
   const handleChanges = (event) => {
@@ -28,7 +30,7 @@ function FormTwo() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { client, stockName, idCode, quantity, lotSize ,buyPrice, tradeDate, mode } = formTwoData;
+    const { client, stockName, idCode, quantity, lotSize ,buyPrice, tradeDate, mode, orgnizationName } = formTwoData;
     console.log(formTwoData)
       if (formTwoData != null) {
         navigate(`/TredBuyReceipt`, {
@@ -40,7 +42,8 @@ function FormTwo() {
             lotSize: Number(lotSize),
             buyPrice: Number(buyPrice),
             tradeDate,
-            mode
+            mode,
+            orgnizationName
           }
         });
       }
@@ -115,6 +118,19 @@ function FormTwo() {
             onChange={handleChanges}
             className="form-control text-muted"
             placeholder="Enter your Lot Size"
+          />
+        </div>
+
+        <div className="col-md-12 mb-3">
+          <label htmlFor="lotSize" className="form-label text-muted">Orgnization Name</label>
+          <input
+            type="text"
+            id="orgnizationName"
+            name="orgnizationName"
+            value={formTwoData.orgnizationName}
+            onChange={handleChanges}
+            className="form-control text-muted"
+            placeholder="Enter your orgnization name"
           />
         </div>
 

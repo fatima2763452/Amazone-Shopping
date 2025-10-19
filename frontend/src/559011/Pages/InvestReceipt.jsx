@@ -7,6 +7,7 @@ import NavBar from '../Components/NavBar';
 
 // import logoImg from '../img/LOGO.jpg';
 import signatureImg from '../img/signature.jpg';
+import logo from '../img/logo.jpg';
 
 
 function InvestReceipt() {
@@ -59,10 +60,25 @@ function InvestReceipt() {
             boxSizing: 'border-box',
           }}
         >
-          <div style={{ textAlign: 'center', marginBottom: 10 }}>
-            <div style={{ fontWeight: 600, fontSize: '1.3em', marginBottom: 2 , color: '#007bff'}}>
-              {companyName || 'INVESTMENT Pvt. Ltd.'}
+          <div className='' style={{ textAlign: 'center', marginBottom: 10 }}>
+            <div style={{ position: 'relative', width: '90%', margin: '0 auto 10px', display: 'flex', alignItems: 'center' }}>
+              {/* Centered organization name (absolute so it's centered regardless of logo width) */}
+              <div style={{ position: 'absolute', left: 0, right: 0, textAlign: 'center', pointerEvents: 'none' }}>
+                <div style={{ fontWeight: 600, fontSize: '1.3em', marginBottom: 2, color: '#007bff' }}>
+                  {companyName || 'INVESTMENT Pvt. Ltd.'}
+                </div>
+              </div>
+
+              {/* Right-aligned logo (kept in normal flow) */}
+              <div style={{ marginRight: 'auto', pointerEvents: 'auto' }}>
+                <img
+                  src={logo}
+                  alt="Company Logo"
+                  style={{ width: 100, height: 'auto', marginBottom: 5, display: 'block' }}
+                />
+              </div>
             </div>
+            
             <div style={{ fontSize: '1em', marginBottom: 10 }}>
              <span style={{ }}>We are registered with the Securities and Exchange Board of India (SEBI) as a Stock Broker.</span>
             </div>
