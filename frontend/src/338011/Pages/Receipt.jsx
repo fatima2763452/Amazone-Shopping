@@ -109,6 +109,9 @@ const handleDownloadPDF = async () => {
     netAmount = buyPrice * quantity - sellPrice * quantity - brokerage;
   }
 
+
+  
+
   const realisedBoxClass =
     netAmount >= 0 ? 'realised-box realised-profit' : 'realised-box realised-loss';
 

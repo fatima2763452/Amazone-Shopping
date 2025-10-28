@@ -65,18 +65,29 @@ function Receipt() {
   }
 
   const brokerage = calculateBrokerage(receiptData);
-  const { buyPrice, sellPrice, quantity, mode, lotSize } = receiptData;
-  let netAmount = 0;
+  const {  lotSize } = receiptData;
+  // let netAmount = 0;
 
+  // if (mode === 'buy') {
+  //   netAmount = (sellPrice - buyPrice) * quantity - brokerage;
+  // } else if (mode === 'sell') {
+  //   netAmount = (buyPrice - buyPrice) * quantity - brokerage;
+  // }
+
+
+    let netAmount = 0;
+  const { buyPrice, sellPrice, quantity, mode } = receiptData;
   if (mode === 'buy') {
-    netAmount = (sellPrice - buyPrice) * quantity - brokerage;
+    netAmount = ((sellPrice * quantity) - (buyPrice * quantity)) - brokerage;
   } else if (mode === 'sell') {
-    netAmount = (sellPrice - buyPrice) * quantity - brokerage;
+    netAmount = (buyPrice * quantity) - (sellPrice * quantity) - brokerage;
   }
+
 
   const totalBuying = buyPrice * quantity;
   const totalSelling = sellPrice * quantity;
   const isProfit = netAmount >= 0;
+
 
   return (
     <>
@@ -169,7 +180,7 @@ function Receipt() {
 
             <div style={rowStyle}>
               <span style={labelStyle}>Realised P&L:</span>
-              <span style={{ ...valueStyle, color: isProfit ? '#22c55e' : '#ef4444' }}>
+              <span style={{ ...valueStyle, color: netAmount >= 0 ? '#22c55e' : '#ef4444' }}>
                 {isProfit ? '+' : '-'} ₹{Math.abs(netAmount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
               </span>
             </div>
