@@ -74,7 +74,7 @@ function Pavti() {
   const calculateBrokerage = ({ buyPrice, sellPrice, quantity }) => {
     // 0.01% of turnover
     const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover *  0.0002).toFixed(2));
+    return Number((turnover *  0.0001).toFixed(2));
   };
 
 
