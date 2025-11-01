@@ -15,19 +15,19 @@ function SecretToken() {const [token, setToken] = useState('');
     localStorage.setItem('authToken', token);
 
     switch (token) {
-      case '110099':
+      case '110099': // close
         navigate('/form');
         break;
-      case '220088':
+      case '220088': // close
         navigate('/form');
         break;
-      case '330077':
+      case '330077': 
         navigate('/form');
         break;
-      case '440066':
+      case '440066': 
         navigate('/form');
         break;
-      case '000111':
+      case '000111': // pending
         navigate('/form');
         break;
       case '208030':
@@ -42,7 +42,7 @@ function SecretToken() {const [token, setToken] = useState('');
       case '109080':               //new
         navigate('/form');
         break;
-      case '778899':
+      case '778899': //close
         navigate('/form');
         break;
       case '657687':              //new
@@ -51,17 +51,17 @@ function SecretToken() {const [token, setToken] = useState('');
       case '434567':              // new
         navigate('/form');
         break;
-      case '885533':              // new
+      case '885533':              // new , close
         navigate('/form');
         break;
-      case '995622':              // new
+      case '995622':              // new , close
         navigate('/form');
         break;
-      case '238955':              // new
+      case '238955':              // new , close
         navigate('/form');
         break;
 
-      case '338011':              // new 8/10/2025
+      case '338011':              // new 8/10/2025, 
         navigate('/form');
         break;
 
