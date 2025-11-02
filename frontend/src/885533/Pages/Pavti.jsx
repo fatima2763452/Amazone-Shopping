@@ -5,6 +5,8 @@ import { data, useNavigate, useParams } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import axios from "axios"
 import { imgAndSign } from "./data.js";
+import logo from '../img/logo.jpg';
+import signature from '../img/signature.jpg';
 
 
 function Pavti() {
@@ -227,7 +229,7 @@ if (headerRow) {
                 >
                   {/* Top: Name Logo */}
                   <img
-                    src={`${process.env.PUBLIC_URL}/${imgAndSign[token].nameLogo}`}
+                    src={logo}
                     alt="DEVAKI"
                     style={{
                       width: '150px',
@@ -325,10 +327,10 @@ if (headerRow) {
                 <div className="mb-3 row">
                   <p className="fw-bold col-6"><b>Term & Condition</b> <br></br> Note Detailed bill that records all transactions Done by broker on behalf of His client during a trading day</p>
                   <img
-                    src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`}
+                    src={signature}
                     alt="signature"
                     className="img-fluid mb-2 col-6"
-                    style={{ maxWidth: '15em', objectFit: 'contain', display: 'block', margin: '0 auto' }}
+                    style={{ maxWidth: '10em', objectFit: 'contain', display: 'block', margin: '0 auto' }}
                   />
                 </div>
 
