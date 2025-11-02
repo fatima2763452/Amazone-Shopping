@@ -155,7 +155,7 @@ function Receipt() {
             }}
           >
             <h2>
-              RADHE BROKERAGE HOUSE
+              BHANSAVALI PVT LTD
               <br />
               <span style={{ fontSize: 12, fontWeight: 400 }}>Trade Exit Receipt</span>
             </h2>
