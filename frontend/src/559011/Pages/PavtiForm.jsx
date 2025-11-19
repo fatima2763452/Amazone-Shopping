@@ -4,8 +4,7 @@ import axios from "axios"
 import Button from '@mui/material/Button';
 
 import { useState } from 'react';
-import { useEffect } from 'react';
-import { useNavigate , useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function PavtiForm() {
     const navigate = useNavigate();
@@ -15,7 +14,9 @@ function PavtiForm() {
         address : "",
         margin : "",
         mobileNumber : "",
-        orgnization: ""
+        orgnization: "",
+        toDate : "",
+        fromDate: ""
 
     });
     const handleChanges = (event) =>{
@@ -28,18 +29,19 @@ function PavtiForm() {
 
     const handleSubmit = async(e) =>{
       e.preventDefault();
-      const {idCode,address, margin, mobileNumber, orgnization} = PavtiFormData;
+      const {idCode,address, margin, mobileNumber, orgnization, toDate, fromDate} = PavtiFormData;
       const token = localStorage.getItem('authToken');
       try{
         const res = await axios.put(`${process.env.REACT_APP_API_URL}/api/forms/updateForm/${token}/${idCode}`, {
           address,
           margin: Number(margin),
           mobileNumber : Number(mobileNumber),
-          orgnization
+          orgnization,
         })
 
         if(res.data.success){
-          navigate(`/Pavti/${idCode}`);
+          // pass toDate and fromDate in navigation state so Pavti can filter results
+          navigate(`/Pavti/${idCode}`, { state: { toDate, fromDate } });
         }
 
       }catch(err){
@@ -96,6 +98,32 @@ function PavtiForm() {
             />
           </div>
 
+          <div className="col-md-6 mb-3">
+            <label htmlFor="fromDate" className="form-label text-muted">From Date</label>
+            <input
+              type="date"
+              id="fromDate"
+              name="fromDate"
+              value={PavtiFormData.fromDate}
+              onChange={handleChanges}
+              className="form-control text-muted"
+            />
+          </div>
+
+          <div className="col-md-6 mb-3">
+            <label htmlFor="toDate" className="form-label text-muted">To Date</label>
+            <input
+              type="date"
+              id="toDate"
+              name="toDate"
+              value={PavtiFormData.toDate}
+              onChange={handleChanges}
+              className="form-control text-muted"
+            />
+          </div>
+
+           
+
            <div className="col-md-12 mb-3">
             <label htmlFor="orgnization" className="form-label text-Black text-muted">orgnization</label>
             <input
@@ -108,6 +136,9 @@ function PavtiForm() {
               placeholder="Enter your orgnization"
             />
           </div>
+
+          
+         
 
           <div className="col-md-12 mb-3">
             <label htmlFor="address" className="form-label text-Black text-muted">Address</label>

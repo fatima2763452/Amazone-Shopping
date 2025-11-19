@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { data, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import axios from "axios"
 // import { imgAndSign } from "./data.js";
@@ -15,6 +15,9 @@ function Pavti() {
   const invoiceRef = useRef();
   const { idCode } = useParams();
   const token = localStorage.getItem('authToken');
+  const location = useLocation();
+  const navState = location?.state || {};
+  const { toDate: navToDate, fromDate: navFromDate } = navState;
   const [pavtiData, setPavtiData] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [totalProfit, setTotalProfit] = useState(0);
@@ -26,17 +29,37 @@ function Pavti() {
       const token = localStorage.getItem('authToken');
       try {
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getStocks/${token}/${idCode}`);
-        setPavtiData(res.data);
+        const original = Array.isArray(res.data) ? res.data : [];
 
-        if (res.data.length) {
-          const { clientName, address, margin, mobileNumber, orgnization } = res.data[0];
+        // apply nav date filter if both dates provided
+        let fetched = original;
+        if (navFromDate && navToDate) {
+          let from = new Date(navFromDate);
+          from.setHours(0,0,0,0);
+          let to = new Date(navToDate);
+          to.setHours(23,59,59,999);
+          // swap if user provided dates in reverse
+          if (from > to) {
+            const tmp = from; from = to; to = tmp;
+          }
+          fetched = original.filter(t => {
+            const td = new Date(t.tradeDate);
+            return td >= from && td <= to;
+          });
+        }
+
+        setPavtiData(fetched);
+
+        if (original.length) {
+          const { clientName, address, margin, mobileNumber, orgnization } = original[0];
           setUserInfo({ clientName, address, margin, mobileNumber, orgnization });
 
           let grossProfit = 0;
           let grossLoss = 0;
           let totalBrokerage = 0;
 
-          res.data.forEach(t => {
+          // calculate totals based on the fetched (possibly filtered) set
+          fetched.forEach(t => {
             const brk = calculateBrokerage(t);
             totalBrokerage += brk;
 
