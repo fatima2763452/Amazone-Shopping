@@ -186,6 +186,30 @@ import Admin16InvestForm from './559011/Pages/InvestForm';
 import Admin16InvestReceipt from './559011/Pages/InvestReceipt';
 
 
+import Admin17Holdings from './991100/Pages/Holdings';
+import Admin17Pavti from './991100/Pages/Pavti';
+import Admin17Receipt from './991100/Pages/Receipt';
+import Admin17PavtiForm from './991100/Pages/PavtiForm';
+import Admin17Form from './991100/Pages/Form';
+import Admin17FormTwo from './991100/Pages/FormTwo';
+import Admin17TredBuyReceipt from './991100/Pages/TredBuyReceipt';
+import Admin17AverageCalce from './991100/Pages/AverageCalce';
+import Admin17InvestForm from './991100/Pages/InvestForm';
+import Admin17InvestReceipt from './991100/Pages/InvestReceipt';
+
+
+import Admin18Holdings from './229900/Pages/Holdings';
+import Admin18Pavti from './229900/Pages/Pavti';
+import Admin18Receipt from './229900/Pages/Receipt';
+import Admin18PavtiForm from './229900/Pages/PavtiForm';
+import Admin18Form from './229900/Pages/Form';
+import Admin18FormTwo from './229900/Pages/FormTwo';
+import Admin18TredBuyReceipt from './229900/Pages/TredBuyReceipt';
+import Admin18AverageCalce from './229900/Pages/AverageCalce';
+import Admin18InvestForm from './229900/Pages/InvestForm';
+import Admin18InvestReceipt from './229900/Pages/InvestReceipt';
+
+
 function App() {
   const token = localStorage.getItem('authToken'); // Token to identify admin
 
@@ -453,6 +477,40 @@ function App() {
           </>
         )}
 
+
+          {token === '991100' && (
+          <>
+     
+            <Route path="/holdings" element={<Admin17Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin17Pavti />} />
+            <Route path="/receipt/:uniquckId" element={<Admin17Receipt />} />
+            <Route path="/pavti" element={<Admin17PavtiForm />} />
+            <Route path="/form" element={<Admin17Form />} />
+            <Route path="/formTwo" element={<Admin17FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin17TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin17AverageCalce />} />
+            <Route path="/investForm" element={<Admin17InvestForm />} />
+            <Route path="/investReceipt" element={<Admin17InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
+          </>
+        )}
+
+         {token === '229900' && (
+          <>
+     
+            <Route path="/holdings" element={<Admin18Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin18Pavti />} />
+            <Route path="/receipt/:uniquckId" element={<Admin18Receipt />} />
+            <Route path="/pavti" element={<Admin18PavtiForm />} />
+            <Route path="/form" element={<Admin18Form />} />
+            <Route path="/formTwo" element={<Admin18FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin18TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin18AverageCalce />} />
+            <Route path="/investForm" element={<Admin18InvestForm />} />
+            <Route path="/investReceipt" element={<Admin18InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
+          </>
+        )}
 
         {token && !['1', '2', '3', '4'].includes(token) && (
           <Route path="/*" element={<div>Admin not found</div>} />

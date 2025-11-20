@@ -145,7 +145,7 @@ const handleDownloadPDF = async () => {
             }}
           >
             <h2>
-             <span style={{ color:'rgba(76, 163, 255, 0.76)'}}>KRISHNA ENT. PVT. LTD</span> 
+             <span style={{ color:'rgba(120, 183, 250, 0.76)'}}>KRISHNA ENT. PVT. LTD</span> 
               <br />
               <span style={{ fontSize: '12px', fontWeight: 400 , color:'black'}}>Trade Exit Receipt</span>
             </h2>

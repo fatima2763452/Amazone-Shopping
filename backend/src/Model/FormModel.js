@@ -20,7 +20,7 @@ const formSchema = new mongoose.Schema(
     buyPrice: { type: Number },
     sellPrice: { type: Number },
     tradeDate: { type: Date },
-    brokerage: { type: Number },
+    formBrokerage: { type: Number },
     address: { type: String },
     margin: { type: Number },
     mobileNumber: { type: Number },

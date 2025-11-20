@@ -89,7 +89,7 @@ function TredBuyReceipt() {
             }}
           >
             <h2>
-              <span style={{ color:'rgba(22, 135, 255, 0.76)' , fontSize : '20px'}}>KRISHNA ENT. PVT. LTD</span>
+              <span style={{ color:'rgba(21, 132, 250, 0.76)' , fontSize : '20px'}}>KRISHNA ENT. PVT. LTD</span>
               <br />
               <span style={{ fontSize: '12px', fontWeight: 400, color: 'black' }}>
                 Trade Buy Receipt
@@ -137,31 +137,19 @@ function TredBuyReceipt() {
             <p><strong>Tax:</strong> ₹0.00</p>
           </div>
 
-          <p
-            style={{
-              color: '#2563eb',
-              // borderRadius: 12,
-              // padding: '10px 15px',
-              textAlign: 'center',
-              // margin: '16px 20px',
-              // color: '#fff',
-              fontWeight: 600,
-            }}
-          >
-            Including 0.01% Brokerage Charge
-          </p>
+          
 
           {/* Footer */}
           <div
             style={{
-                 background: '#f6f7f7ff',
+               background: '#f6f7f7ff',
               padding: 12,
               fontSize: 12,
               textAlign: 'center',
               color: '#94a3b8',
             }}
           >
-            <span style={{ color:'rgba(23, 132, 249, 0.76)'}}>© KRISHNA ENT. PVT. LTD</span>
+            <span style={{ color:'rgba(38, 143, 255, 0.76)'}}>© KRISHNA ENT. PVT. LTD</span>
           </div>
         </div>
 

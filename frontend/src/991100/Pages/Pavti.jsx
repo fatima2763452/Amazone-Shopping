@@ -28,7 +28,9 @@ function Pavti() {
       setLoading(true);
       const token = localStorage.getItem('authToken');
       try {
+       
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getStocks/${token}/${idCode}`);
+        
         const original = Array.isArray(res.data) ? res.data : [];
 
         // apply nav date filter if both dates provided
@@ -47,6 +49,8 @@ function Pavti() {
             return td >= from && td <= to;
           });
         }
+
+        console.log(fetched)
 
         setPavtiData(fetched);
 
@@ -96,10 +100,11 @@ function Pavti() {
     return numStr.substring(0, 1) + '***' + numStr.substring(numStr.length - 4);
   };
 
-  const calculateBrokerage = ({ buyPrice, sellPrice, quantity }) => {
-    // 0.01% of turnover
+  const calculateBrokerage = ({ buyPrice, sellPrice, quantity, brokerage }) => {
+    // 0.01% of turnove
+  // console.log(`pavti data brockerage ${brokerage}`)
     const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover *  0.00005).toFixed(2));
+    return Number((turnover *  brokerage).toFixed(2));
   };
 
 

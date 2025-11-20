@@ -22,7 +22,8 @@ function Receipt() {
   // Intraday brokerage at 0.01% of turnover (buy+sell)*quantity
   const calculateBrokerage = ({ buyPrice, sellPrice, quantity }) => {
     const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover * 0.00005).toFixed(2));
+    console.log( receiptData.brokerage);
+    return Number((turnover * receiptData.brokerage).toFixed(2));
   };
 
 const handleDownloadPDF = async () => {
@@ -145,7 +146,7 @@ const handleDownloadPDF = async () => {
             }}
           >
             <h2>
-             <span style={{ color:'rgba(76, 163, 255, 0.76)'}}>KRISHNA ENT. PVT. LTD</span> 
+             <span style={{ color:'rgba(120, 183, 250, 0.76)'}}>KRISHNA ENT. PVT. LTD</span> 
               <br />
               <span style={{ fontSize: '12px', fontWeight: 400 , color:'black'}}>Trade Exit Receipt</span>
             </h2>
