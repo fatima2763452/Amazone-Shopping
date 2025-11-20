@@ -68,7 +68,7 @@ function TredBuyReceipt() {
           id="receipt-pdf"
           className="receipt"
           style={{
-            background: 'white',
+              background: '#0f172a',
             width: 400,
             borderRadius: '0px',
             boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
@@ -131,7 +131,7 @@ function TredBuyReceipt() {
 
           {/* Details */}
           <div style={{ padding: 20, fontSize: 14, lineHeight: 1.8 }}>
-            <p><strong>Mode:</strong> {mode ? mode.toUpperCase() : ''}</p>
+            <p ><strong>Mode:</strong> {mode ? mode.toUpperCase() : ''}</p>
             <p><strong>Quantity:</strong> {quantity}{lotSize ? <span>({lotSize} Lot)</span> : null}</p>
             <p><strong>Total Buying:</strong> ₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
             <p><strong>Tax:</strong> ₹0.00</p>
@@ -185,7 +185,7 @@ function TredBuyReceipt() {
 }
 
 const gridItemStyle = {
-  background: '#f9fafb',
+   background: '#0f172a',
   borderRadius: '12px',
   padding: '10px',
   textAlign: 'center',
@@ -194,14 +194,14 @@ const gridItemStyle = {
 const gridLabelStyle = {
   margin: '4px 0',
   fontSize: 13,
-  color: '#94a3b8',
+  color: 'white',
 };
 
 const gridValueStyle = {
   margin: 0,
   fontSize: 15,
   fontWeight: 700,
-  color: 'black',
+  color: 'white',
 };
 
 export default TredBuyReceipt;

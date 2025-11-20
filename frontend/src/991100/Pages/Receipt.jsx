@@ -23,9 +23,9 @@ function Receipt() {
   const calculateBrokerage = ({ buyPrice, sellPrice, quantity }) => {
     const turnover = (buyPrice + sellPrice) * quantity;
     console.log( receiptData.brokerage);
-    return Number((turnover * receiptData.brokerage).toFixed(2));
+    return Number((turnover * receiptData.formBrokerage).toFixed(2));
   };
-
+ 
 const handleDownloadPDF = async () => {
   const input = document.getElementById('receipt-pdf');
   if (!input) return;

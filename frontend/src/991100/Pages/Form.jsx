@@ -43,6 +43,8 @@ function Form() {
         ? defaultRate
         : Number(brokerage);
 
+      console.log("Submitting form with brokerage:", formBrokerageValue);
+
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/forms/createForm`, {
         clientName,
         stockName,
@@ -53,7 +55,7 @@ function Form() {
         sellPrice: Number(sellPrice),
         tradeDate,
         // keep legacy `brokerage` and also send `formBrokerage` which matches backend schema
-        brokerage: formBrokerageValue,
+        formBrokerage: formBrokerageValue,
       
         mode,
         token // Add token to payload

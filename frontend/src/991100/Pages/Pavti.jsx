@@ -100,11 +100,11 @@ function Pavti() {
     return numStr.substring(0, 1) + '***' + numStr.substring(numStr.length - 4);
   };
 
-  const calculateBrokerage = ({ buyPrice, sellPrice, quantity, brokerage }) => {
+  const calculateBrokerage = ({ buyPrice, sellPrice, quantity, formBrokerage }) => {
     // 0.01% of turnove
   // console.log(`pavti data brockerage ${brokerage}`)
     const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover *  brokerage).toFixed(2));
+    return Number((turnover *  formBrokerage).toFixed(2));
   };
 
 
