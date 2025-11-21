@@ -212,7 +212,7 @@ function Receipt() {
 
           {/* Footer */}
           <div className="footer">
-            © Radhe Brokerage
+           BHANSAVALI PVT LTD
           </div>
         </div>
       </div>

@@ -173,7 +173,7 @@ function TredBuyReceipt() {
             textAlign: 'center',
             color: '#555'
           }}>
-            © Radhe Brokerage
+            BHANSAVALI PVT. LTD.
           </div>
         </div>
         <div className="d-flex justify-content-center">

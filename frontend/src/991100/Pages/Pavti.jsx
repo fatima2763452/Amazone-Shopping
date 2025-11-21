@@ -64,7 +64,16 @@ function Pavti() {
 
           // calculate totals based on the fetched (possibly filtered) set
           fetched.forEach(t => {
-            const brk = calculateBrokerage(t);
+            let brk = 0;
+            const fb = t.formBrokerage;
+            // If formBrokerage is missing or equals the default rate, calculate from turnover
+            if (fb === undefined || fb === null || Number(fb) === 0.0001) {
+              brk = calculateBrokerage(t);
+            } else {
+              // If formBrokerage < 1 treat as rate, otherwise treat as absolute amount
+              const nb = Number(fb);
+              brk = nb < 1 ? calculateBrokerage({ ...t, formBrokerage: nb }) : nb;
+            }
             totalBrokerage += brk;
 
             // profit/loss depends on mode
@@ -79,7 +88,7 @@ function Pavti() {
             else grossLoss += Math.abs(pl);
           });
 
-          // netProfit = grossProfit - grossLoss (loss as positive) - totalBrokerage
+          // netProfit = grossProfit - grossLoss (loss as positive)
           const netProfit = grossProfit - grossLoss;
           setTotalProfit(netProfit);
         }
@@ -101,10 +110,15 @@ function Pavti() {
   };
 
   const calculateBrokerage = ({ buyPrice, sellPrice, quantity, formBrokerage }) => {
-    // 0.01% of turnove
-  // console.log(`pavti data brockerage ${brokerage}`)
-    const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover *  formBrokerage).toFixed(2));
+    // Use provided formBrokerage when it's a rate (<1). Otherwise fall back to default rate.
+    const bp = Number(buyPrice || 0);
+    const sp = Number(sellPrice || 0);
+    const q = Number(quantity || 0);
+    const turnover = (bp + sp) * q;
+    const defaultRate = 0.0001;
+    const fb = typeof formBrokerage !== 'undefined' && formBrokerage !== null ? Number(formBrokerage) : undefined;
+    const rate = fb !== undefined && fb < 1 ? fb : defaultRate;
+    return Number((turnover * rate).toFixed(2));
   };
 
 
@@ -326,7 +340,10 @@ if (headerRow) {
 
                     <tbody>
                       {pavtiData.map((t, idx) => {
-                        const brk = calculateBrokerage(t);
+                        const fb = t.formBrokerage;
+                        const brk = (fb === undefined || fb === null || Number(fb) === 0.0001)
+                          ? calculateBrokerage(t)
+                          : (Number(fb) < 1 ? calculateBrokerage({ ...t, formBrokerage: Number(fb) }) : Number(fb));
                         const pl = t.mode === 'buy' ? ((t.sellPrice - t.buyPrice) * t.quantity) - brk : ((t.buyPrice - t.sellPrice) * t.quantity) - brk;
                         const plColor = pl >= 0 ? 'green' : 'red';
                         return (

@@ -254,7 +254,7 @@ const handleDownloadPDF = async () => {
             }}
           >
              {/* KRISHNA ENT. PVT. LTD */}
-             <span style={{ color:'rgba(120, 183, 250, 0.76)'}}>© KRISHNA ENT. PVT. LTD</span> 
+             <span style={{ color:'rgba(120, 183, 250, 0.76)'}}>SWASTHIKA BROCKERAGE PVT.</span> 
 
           </div>
         </div>

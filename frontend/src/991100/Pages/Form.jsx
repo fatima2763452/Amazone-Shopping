@@ -38,7 +38,7 @@ function Form() {
 
     try {
       // If user left brokerage empty, use default rate 0.00005
-      const defaultRate = 0.00005;
+      const defaultRate = 0.0001;
       const formBrokerageValue = brokerage === "" || brokerage === null || typeof brokerage === 'undefined'
         ? defaultRate
         : Number(brokerage);
