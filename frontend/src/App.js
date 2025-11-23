@@ -210,6 +210,19 @@ import Admin18InvestForm from './229900/Pages/InvestForm';
 import Admin18InvestReceipt from './229900/Pages/InvestReceipt';
 
 
+
+
+import Admin19Holdings from './441906/Pages/Holdings';
+import Admin19Pavti from './441906/Pages/Pavti';
+import Admin19Receipt from './441906/Pages/Receipt';
+import Admin19PavtiForm from './441906/Pages/PavtiForm';
+import Admin19Form from './441906/Pages/Form';
+import Admin19FormTwo from './441906/Pages/FormTwo';
+import Admin19TredBuyReceipt from './441906/Pages/TredBuyReceipt';
+import Admin19AverageCalce from './441906/Pages/AverageCalce';
+import Admin19InvestForm from './441906/Pages/InvestForm';
+import Admin19InvestReceipt from './441906/Pages/InvestReceipt';
+
 function App() {
   const token = localStorage.getItem('authToken'); // Token to identify admin
 
@@ -508,6 +521,23 @@ function App() {
             <Route path="/averageCalce" element={<Admin18AverageCalce />} />
             <Route path="/investForm" element={<Admin18InvestForm />} />
             <Route path="/investReceipt" element={<Admin18InvestReceipt />} />
+            {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
+          </>
+        )}
+
+        {token === '441906' && (
+          <>
+     
+           <Route path="/holdings" element={<Admin19Holdings />} />
+            <Route path="/pavti/:idCode" element={<Admin19Pavti />} />
+            <Route path="/receipt/:uniquckId" element={<Admin19Receipt />} />
+            <Route path="/pavti" element={<Admin19PavtiForm />} />
+            <Route path="/form" element={<Admin19Form />} />
+            <Route path="/formTwo" element={<Admin19FormTwo />} />
+            <Route path="/tredBuyReceipt" element={<Admin19TredBuyReceipt />} />
+            <Route path="/averageCalce" element={<Admin19AverageCalce />} />
+            <Route path="/investForm" element={<Admin19InvestForm />} />
+            <Route path="/investReceipt" element={<Admin19InvestReceipt />} />
             {/* <Route path="/SMSForm" element={<Admin8SMSSystem/>} /> */}
           </>
         )}
