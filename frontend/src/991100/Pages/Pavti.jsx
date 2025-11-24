@@ -67,7 +67,7 @@ function Pavti() {
             let brk = 0;
             const fb = t.formBrokerage;
             // If formBrokerage is missing or equals the default rate, calculate from turnover
-            if (fb === undefined || fb === null || Number(fb) === 0.0001) {
+            if (fb === undefined || fb === null || Number(fb) === 0.00005) {
               brk = calculateBrokerage(t);
             } else {
               // If formBrokerage < 1 treat as rate, otherwise treat as absolute amount
@@ -115,7 +115,7 @@ function Pavti() {
     const sp = Number(sellPrice || 0);
     const q = Number(quantity || 0);
     const turnover = (bp + sp) * q;
-    const defaultRate = 0.0001;
+    const defaultRate = 0.00005;
     const fb = typeof formBrokerage !== 'undefined' && formBrokerage !== null ? Number(formBrokerage) : undefined;
     const rate = fb !== undefined && fb < 1 ? fb : defaultRate;
     return Number((turnover * rate).toFixed(2));
@@ -341,7 +341,7 @@ if (headerRow) {
                     <tbody>
                       {pavtiData.map((t, idx) => {
                         const fb = t.formBrokerage;
-                        const brk = (fb === undefined || fb === null || Number(fb) === 0.0001)
+                        const brk = (fb === undefined || fb === null || Number(fb) === 0.00005)
                           ? calculateBrokerage(t)
                           : (Number(fb) < 1 ? calculateBrokerage({ ...t, formBrokerage: Number(fb) }) : Number(fb));
                         const pl = t.mode === 'buy' ? ((t.sellPrice - t.buyPrice) * t.quantity) - brk : ((t.buyPrice - t.sellPrice) * t.quantity) - brk;
