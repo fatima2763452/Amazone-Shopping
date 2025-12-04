@@ -181,9 +181,10 @@ function InvestReceipt() {
 
       // Add signature image under the T&C (bottom-right) if available
       try {
+        const sigPath = imgAndSign['809010'].signature;
         const sigImgEl = new Image();
         sigImgEl.crossOrigin = "anonymous";
-        sigImgEl.src = signatureImg;
+        sigImgEl.src = `${process.env.PUBLIC_URL}/${sigPath}`;
         await new Promise((resolve, reject) => {
           sigImgEl.onload = resolve;
           sigImgEl.onerror = reject;
@@ -197,7 +198,7 @@ function InvestReceipt() {
         let placeY = y + 10;
         if (placeY + desiredH > pageHeight - margin) {
           pdf.addPage();
-          placeY = pageHeight - margin - desiredH - 10;
+          placeY = margin + 10;
         }
 
         const placeX = pageWidth - margin - desiredW;
@@ -287,16 +288,16 @@ function InvestReceipt() {
               <div><b>Date of Application:</b> {applicationDate ? new Date(applicationDate).toLocaleDateString("en-GB") : ""}</div>
             </div>
 
-            <div style={{ width: 120, height: 140 }}>
+            {/* <div style={{ width: 120, height: 140 }}>
               {
                 (() => {
-                  const fallbackPhoto = photo ;
+                  // const fallbackPhoto = photo ;
                   return (
-                    <img src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`} alt="Customer" style={{ width: 120, height: 120, objectFit: "cover" }} />
+                    <img src={`${process.env.PUBLIC_URL}/${imgAndSign['809010'].signature}`} alt="Customer" style={{ width: 120, height: 120, objectFit: "cover" }} />
                   );
                 })()
               }
-            </div>
+            </div> */}
           </div>
 
           <hr />
@@ -307,7 +308,7 @@ function InvestReceipt() {
 
           <div style={{ width: "90%", margin: "0 auto", display: "flex", justifyContent: "space-between" }}>
             <span style={{ fontStyle: "italic" }}>Signature of Authorized Officer</span>
-            <img src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`}
+            <img src={`${process.env.PUBLIC_URL}/${imgAndSign['809010'].signature}`}
               alt="Signature" style={{ maxWidth: 120 }} />
           </div>
 
