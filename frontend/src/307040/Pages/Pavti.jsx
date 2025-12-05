@@ -1,16 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { data, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import axios from "axios"
-import { imgAndSign } from "./data.js";
+// import { imgAndSign } from "./data.js";
+import signature from '../img/signature.jpg';
+import logo from '../img/logo.jpg';
+
+
 
 
 function Pavti() {
   const invoiceRef = useRef();
   const { idCode } = useParams();
   const token = localStorage.getItem('authToken');
+  const location = useLocation();
+  const navState = location?.state || {};
+  const { toDate: navToDate, fromDate: navFromDate } = navState;
   const [pavtiData, setPavtiData] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [totalProfit, setTotalProfit] = useState(0);
@@ -22,18 +29,37 @@ function Pavti() {
       const token = localStorage.getItem('authToken');
       try {
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/forms/getStocks/${token}/${idCode}`);
-        console.log(res.data);
-        setPavtiData(res.data);
+        const original = Array.isArray(res.data) ? res.data : [];
 
-        if (res.data.length) {
-          const { clientName, address, margin, mobileNumber, orgnization } = res.data[0];
+        // apply nav date filter if both dates provided
+        let fetched = original;
+        if (navFromDate && navToDate) {
+          let from = new Date(navFromDate);
+          from.setHours(0,0,0,0);
+          let to = new Date(navToDate);
+          to.setHours(23,59,59,999);
+          // swap if user provided dates in reverse
+          if (from > to) {
+            const tmp = from; from = to; to = tmp;
+          }
+          fetched = original.filter(t => {
+            const td = new Date(t.tradeDate);
+            return td >= from && td <= to;
+          });
+        }
+
+        setPavtiData(fetched);
+
+        if (original.length) {
+          const { clientName, address, margin, mobileNumber, orgnization } = original[0];
           setUserInfo({ clientName, address, margin, mobileNumber, orgnization });
 
           let grossProfit = 0;
           let grossLoss = 0;
           let totalBrokerage = 0;
 
-          res.data.forEach(t => {
+          // calculate totals based on the fetched (possibly filtered) set
+          fetched.forEach(t => {
             const brk = calculateBrokerage(t);
             totalBrokerage += brk;
 
@@ -73,7 +99,7 @@ function Pavti() {
   const calculateBrokerage = ({ buyPrice, sellPrice, quantity }) => {
     // 0.01% of turnover
     const turnover = (buyPrice + sellPrice) * quantity;
-    return Number((turnover * 0.0001).toFixed(2));
+    return Number((turnover *  0.00005).toFixed(2));
   };
 
 
@@ -81,9 +107,8 @@ function Pavti() {
     const input = invoiceRef.current;
     if (!input) return;
 
-    // Clone the original node for layout safety
     const clone = input.cloneNode(true);
-    clone.style.width = '794px'; // A4 width in px at 96 DPI
+    clone.style.width = '794px';
     clone.style.padding = '20px';
     clone.style.backgroundColor = 'white';
     clone.style.position = 'absolute';
@@ -91,6 +116,55 @@ function Pavti() {
     clone.style.left = '0';
     clone.style.zIndex = '-1';
 
+    // --- HEADER FLEX FIX FOR PDF ---
+
+// --- HEADER FLEX FIX FOR PDF ---
+// --- HEADER FLEX FIX FOR PDF ---
+const headerRow = clone.querySelector('.d-flex.flex-column.align-items-center.mb-2');
+if (headerRow) {
+  headerRow.style.display = 'flex';
+  headerRow.style.flexDirection = 'row';
+  headerRow.style.alignItems = 'center';
+  headerRow.style.justifyContent = 'space-between'; // space between for left + center
+  headerRow.style.marginTop = '20px';
+  headerRow.style.marginBottom = '10px';
+
+  // Left: Name logo
+  const nameLogoImg = headerRow.querySelector('img[alt="DEVAKI"]');
+  // if (nameLogoImg) {
+  //   nameLogoImg.style.position = 'static';
+  //   nameLogoImg.style.width = '160px';
+  //   nameLogoImg.style.height = 'auto';
+  //   nameLogoImg.style.marginLeft = '10px';
+  //   nameLogoImg.style.marginRight = 'auto'; // push org name center
+  //   nameLogoImg.style.marginBottom = '0';
+  //   nameLogoImg.style.maxWidth = '40vw';
+  //   nameLogoImg.style.minWidth = '80px';
+  // }
+
+  // Center: Org name
+  const orgDiv = headerRow.querySelector('div');
+  if (orgDiv) {
+    orgDiv.style.flex = '1';                // take full space
+    orgDiv.style.textAlign = 'center';      // center text
+    orgDiv.style.fontSize = '1.2em';
+    orgDiv.style.letterSpacing = '2px';
+    orgDiv.style.fontWeight = '500';
+    orgDiv.style.wordBreak = 'break-word';
+    orgDiv.style.maxWidth = '220px';
+    orgDiv.style.margin = '0 auto';
+    orgDiv.style.marginTop = '29px';
+
+    orgDiv.style.display = 'block';
+    orgDiv.style.position = 'relative'; 
+    orgDiv.style.bottom = '50px'; // space from right edge
+  }
+}
+
+
+    // --- END HEADER FLEX FIX ---
+
+    // Fix total block as before
     const totalBlock = clone.querySelector('div.p-3');
     if (totalBlock) {
       totalBlock.classList.remove('flex-column', 'flex-sm-row');
@@ -98,7 +172,7 @@ function Pavti() {
       totalBlock.style.flexDirection = 'row';
       totalBlock.style.justifyContent = 'space-between';
       totalBlock.style.alignItems = 'center';
-      totalBlock.style.height = 'auto'; // <-- Fix: height auto
+      totalBlock.style.height = 'auto';
       totalBlock.style.padding = '0 20px';
       totalBlock.style.gap = '0';
 
@@ -160,11 +234,11 @@ function Pavti() {
           ) : (
             <>
               <div ref={invoiceRef} style={{ backgroundColor: 'white', color: 'black', position: 'relative' }}>
-                {/* DEVAKI logo for token 220088 */}
-                {token === "220088" && (
-                  <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: 20, marginBottom: 10 }}>
+
+
+                {/* <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginTop: 20, marginBottom: 10 }}>
                     <img
-                      src={`${process.env.PUBLIC_URL}/media/devaki-logo.png`}
+                      src={`${process.env.PUBLIC_URL}/${imgAndSign[token].nameLogo}`}
                       alt="DEVAKI"
                       style={{
                         width: '120px',
@@ -173,29 +247,41 @@ function Pavti() {
                         marginLeft: 10,
                       }}
                     />
-                  </div>
-                )}
+                  </div> */}
+
                 {/* Header */}
-                <div className="row g-0">
-                  <div className="col-12 d-flex flex-column align-items-center mb-2">
-                    <img
-                      src={`${process.env.PUBLIC_URL}/${imgAndSign[token].img}`}
-                      alt="logo"
-                      className="img-fluid mb-2"
-                      style={{ maxWidth: '90px', objectFit: 'contain', display: 'block', margin: '0 auto' }}
-                    />
-                    <div
-                      style={{
-                        fontSize: '1.2em',
-                        textAlign: 'center',
-                        letterSpacing: 2,
-                        fontWeight: 500,
-                      }}
-                    >
-                      <b>{pavtiData[0]?.orgnization}</b>
-                    </div>
+                <div
+                  className="d-flex flex-column align-items-center mb-2"
+                  style={{ marginTop: 20, marginBottom: 10 }}
+                >
+                  {/* Top: Name Logo */}
+                  <img
+                    src={logo}
+                    alt="DEVAKI"
+                    style={{
+                      width: '150px',
+                      height: 'auto',
+                      background: 'transparent',
+                      marginBottom: 8,
+                      minWidth: 80,
+                      maxWidth: '40vw',
+                    }}
+                  />
+                  {/* Bottom: Organization Name */}
+                  <div
+                    style={{
+                      textAlign: 'center',
+                      fontSize: '1.2em',
+                      letterSpacing: 2,
+                      fontWeight: 500,
+                      wordBreak: 'break-word',
+                      maxWidth: 220,
+                    }}
+                  >
+                    <b>{pavtiData[0]?.orgnization}</b>
                   </div>
                 </div>
+
                 {/*user info */}
                 <p className="text-end mb-2" >
                   <strong>Invoice no. :</strong> In##00{Math.floor(10000 + Math.random() * 90000)}
@@ -245,7 +331,7 @@ function Pavti() {
                             <td>{t.stockName} ({t.mode})</td>
                             <td className="text-center">&#8377;{t.buyPrice}</td>
                             <td className="text-center">&#8377;{t.sellPrice}</td>
-                            <td className="text-center">{t.quantity}{t.lotSize && t.lotSize > 0 ? `(${t.lotSize})` : ''}</td>
+                            <td className="text-center">{t.quantity}</td>
                             <td className="text-center">&#8377;{brk}</td>
                             <td className="text-end" style={{ color: plColor }}>
                               &#8377;{pl.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
@@ -268,7 +354,7 @@ function Pavti() {
                 <div className="mb-3 row">
                   <p className="fw-bold col-6"><b>Term & Condition</b> <br></br> Note Detailed bill that records all transactions Done by broker on behalf of His client during a trading day</p>
                   <img
-                    src={`${process.env.PUBLIC_URL}/${imgAndSign[token].signature}`}
+                    src={signature}
                     alt="signature"
                     className="img-fluid mb-2 col-6"
                     style={{ maxWidth: '15em', objectFit: 'contain', display: 'block', margin: '0 auto' }}

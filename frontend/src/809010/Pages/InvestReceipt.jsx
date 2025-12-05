@@ -80,7 +80,7 @@ function InvestReceipt() {
       pdf.setTextColor(0, 102, 204); // professional blue
       pdf.setFont("helvetica", "bold");
       pdf.setFontSize(18);
-      pdf.text("KRISHNA ENT. PVT. LTD", margin, y);
+      pdf.text("RADHE BROCKRAGE HOUSE PVT. LTD", margin, y);
       y += 26;
       // reset text color and font for body
       pdf.setTextColor(0, 0, 0);
@@ -288,16 +288,16 @@ function InvestReceipt() {
               <div><b>Date of Application:</b> {applicationDate ? new Date(applicationDate).toLocaleDateString("en-GB") : ""}</div>
             </div>
 
-            {/* <div style={{ width: 120, height: 140 }}>
+            <div style={{ width: 120, height: 140 }}>
               {
                 (() => {
-                  // const fallbackPhoto = photo ;
+                  const fallbackPhoto = photo || BASE64_PLACEHOLDER;
                   return (
-                    <img src={`${process.env.PUBLIC_URL}/${imgAndSign['809010'].signature}`} alt="Customer" style={{ width: 120, height: 120, objectFit: "cover" }} />
+                    <img src={fallbackPhoto} alt="Customer" style={{ width: 120, height: 120, objectFit: "cover" }} />
                   );
                 })()
               }
-            </div> */}
+            </div>
           </div>
 
           <hr />
